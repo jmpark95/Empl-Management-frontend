@@ -42,4 +42,13 @@ export const EmployeeService = {
          throw error;
       }
    },
+
+   deleteEmployee: async (id) => {
+      try {
+         await axios.delete(`${BACKEND_BASE_URL}/api/employees/delete/${id}`);
+      } catch (error) {
+         console.error("Error deleting employee:", error);
+         throw error;
+      }
+   },
 };
