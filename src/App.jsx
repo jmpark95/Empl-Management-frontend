@@ -15,6 +15,8 @@ function App() {
             <Route path="/" element={<EmployeeTable />}></Route>
             <Route path="/add-employee" element={<AddEmployee />}></Route>
             <Route path="/update-employee/:id" element={<UpdateEmployee />}></Route>
+            <Route path="/error" element={<h1>Something went wrong</h1>} />
+            <Route path="*" element={<h1>Invalid URL</h1>} />
          </Routes>
       </div>
    );

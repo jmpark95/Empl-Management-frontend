@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { EmployeeService } from "../services/EmployeeService";
+import { EmployeeService } from "../api/EmployeeService";
 
 export default function UpdateEmployee() {
    const { id } = useParams();
@@ -8,13 +8,17 @@ export default function UpdateEmployee() {
    const [employee, setEmployee] = useState({
       firstName: "",
       lastName: "",
-      emailId: "",
+      email: "",
    });
 
    useEffect(() => {
       const getEmployee = async () => {
-         const employeeDetails = await EmployeeService.getEmployee(id);
-         setEmployee(employeeDetails);
+         try {
+            const employeeDetails = await EmployeeService.getEmployee(id);
+            setEmployee(employeeDetails);
+         } catch {
+            navigate("/error");
+         }
       };
 
       getEmployee();
@@ -48,7 +52,7 @@ export default function UpdateEmployee() {
             </label>
             <label>
                Email:
-               <input type="email" name="emailId" value={employee.emailId} onChange={handleChange} />
+               <input type="email" name="email" value={employee.email} onChange={handleChange} />
             </label>
             <button type="submit">Update Employee</button>
          </form>

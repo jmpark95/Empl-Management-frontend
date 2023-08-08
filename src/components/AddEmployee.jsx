@@ -1,6 +1,6 @@
 import { Button, Container, TextField } from "@mui/material";
 import { useState } from "react";
-import { EmployeeService } from "../services/EmployeeService";
+import { EmployeeService } from "../api/EmployeeService";
 import { useNavigate } from "react-router-dom";
 
 export default function AddEmployee() {
@@ -8,7 +8,7 @@ export default function AddEmployee() {
    const [formData, setFormData] = useState({
       firstName: "",
       lastName: "",
-      emailId: "",
+      email: "",
    });
 
    const handleChange = (e) => {
@@ -21,7 +21,7 @@ export default function AddEmployee() {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      EmployeeService.addEmployee(formData);
+      await EmployeeService.addEmployee(formData);
       navigate("/");
    };
 
@@ -47,9 +47,9 @@ export default function AddEmployee() {
             <TextField
                fullWidth
                label="Email"
-               name="emailId"
+               name="email"
                type="email"
-               value={formData.emailId}
+               value={formData.email}
                onChange={handleChange}
                required
             />

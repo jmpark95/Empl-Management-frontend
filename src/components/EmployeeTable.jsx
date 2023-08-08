@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { EmployeeService } from "../services/EmployeeService";
+import { EmployeeService } from "../api/EmployeeService";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -54,7 +54,7 @@ export default function EmployeeTable() {
                   <tr key={employee.id}>
                      <td>{employee.firstName}</td>
                      <td>{employee.lastName}</td>
-                     <td>{employee.emailId}</td>
+                     <td>{employee.email}</td>
                      <td>
                         <Link to={`/update-employee/${employee.id}`}>Update</Link>
                      </td>
