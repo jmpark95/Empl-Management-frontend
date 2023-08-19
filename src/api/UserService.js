@@ -5,10 +5,10 @@ const BACKEND_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/user`;
 export const UserService = {
    getAllUsers: async () => {
       try {
-         const response = await axios.get(`${BACKEND_BASE_URL}/all`);
+         const response = await axios.get(`${BACKEND_BASE_URL}/users`);
          return response.data;
       } catch (error) {
-         console.error("Error fetching user:", error);
+         console.error("Error fetching users:", error);
          throw error;
       }
    },

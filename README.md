@@ -1,1 +1,1 @@
-React frontend for Spring practice
+React frontend for Spring Employee Management System
