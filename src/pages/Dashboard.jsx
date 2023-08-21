@@ -1,24 +1,25 @@
 import { Box, Paper } from "@mui/material";
+//import { ClassService } from "../api/ClassService";
 import { StreamService } from "../api/StreamService";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
-import { UserService } from "../api/UserService";
+import { EmployeeService } from "../api/EmployeeService";
 import { LeaveService } from "../api/LeaveService";
 
 export default function Dashboard() {
-   const streamsQuery = useQuery("streams", () => {
+   const streamsQuery = useQuery("allStreams", () => {
       return StreamService.getAllStreams();
    });
-   const usersQuery = useQuery("users", () => {
-      return UserService.getAllUsers();
+   const employeesQuery = useQuery("allEmployees", () => {
+      return EmployeeService.getAllEmployees();
    });
-   const leaveRequestsQuery = useQuery("leaveRequests", () => {
+   const leaveRequestsQuery = useQuery("allLeaveRequests", () => {
       return LeaveService.getAllLeaveRequests();
    });
 
-   if (streamsQuery.isLoading || usersQuery.isLoading || leaveRequestsQuery.isLoading) return "Loading...";
+   if (streamsQuery.isLoading || employeesQuery.isLoading || leaveRequestsQuery.isLoading) return "Loading...";
 
-   if (streamsQuery.error || usersQuery.error || leaveRequestsQuery.isLoading) return "An error has occurred: ";
+   if (streamsQuery.error || employeesQuery.error || leaveRequestsQuery.isLoading) return "An error has occurred: ";
 
    return (
       <Box
@@ -38,12 +39,12 @@ export default function Dashboard() {
             </Link>
          </Paper>
          <Paper elevation={3}>
-            <Link to={"/"}>
-               {usersQuery.data.length} {usersQuery.data.length === 1 ? "Employee" : "Employees"}
+            <Link to={"/employees"}>
+               {employeesQuery.data.length} {employeesQuery.data.length === 1 ? "Employee" : "Employees"}
             </Link>
          </Paper>
          <Paper elevation={3}>
-            <Link to={"/"}>
+            <Link to={"/leave-requests"}>
                {leaveRequestsQuery.data.length}{" "}
                {leaveRequestsQuery.data.length === 1 ? "Leave Request" : "Leave Request"}
             </Link>

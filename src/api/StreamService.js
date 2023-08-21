@@ -7,4 +7,9 @@ export const StreamService = {
       const response = await axios.get(`${BACKEND_BASE_URL}/streams`);
       return response.data;
    },
+
+   getStreamById: async (id) => {
+      const response = await axios.get(`${BACKEND_BASE_URL}/${id}`);
+      return response.data;
+   },
 };
