@@ -16,6 +16,16 @@ export const ClassService = {
       await axios.post(`${BACKEND_BASE_URL}/create`, formikData);
    },
 
+   getClass: async (classId) => {
+      const response = await axios.get(`${BACKEND_BASE_URL}/${classId}`);
+      return response.data;
+   },
+
+   updateClass: async (classId, values) => {
+      const response = await axios.put(`${BACKEND_BASE_URL}/${classId}`, values);
+      return response.data;
+   },
+
    // getAllStreams: async () => {
    //    const response = await axios.get(`${BACKEND_BASE_URL}/classes`);
    //    return response.data;

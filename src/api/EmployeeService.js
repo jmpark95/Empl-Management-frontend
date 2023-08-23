@@ -33,9 +33,23 @@ export const EmployeeService = {
       }
    },
 
-   getAllTraineesByStreamId: async (id) => {
+   getAllUnregisteredTraineesByStreamId: async (id) => {
       try {
          const response = await axios.get(`${BACKEND_BASE_URL}/trainees-by-stream`, {
+            params: {
+               streamId: id,
+            },
+         });
+         return response.data;
+      } catch (error) {
+         console.error("Error getting trainees:", error);
+         throw error;
+      }
+   },
+
+   getAllTraineesByStreamId: async (id) => {
+      try {
+         const response = await axios.get(`${BACKEND_BASE_URL}/all-trainees-by-stream`, {
             params: {
                streamId: id,
             },

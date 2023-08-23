@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import { Box, Drawer, AppBar, CssBaseline, Toolbar, Typography, Divider } from "@mui/material";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import MenuItem from "./MenuItem";
 
 const drawerWidth = 240;
 
 export default function DefaultLayout() {
+   const navigate = useNavigate();
+
    return (
       <Box sx={{ display: "flex" }}>
          <CssBaseline />
@@ -18,6 +20,7 @@ export default function DefaultLayout() {
                   Logout
                </Typography>
                <Link to="/">Home</Link>
+               <button onClick={() => navigate(-1)}>Go back </button>
             </Toolbar>
          </AppBar>
 

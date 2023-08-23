@@ -3,14 +3,15 @@ import { ClassService } from "../api/ClassService";
 import { useQuery } from "react-query";
 import AddClass from "../components/AddClass";
 import { StreamService } from "../api/StreamService";
+import { Box } from "@mui/material";
 
 export default function AllClasses() {
-   const { id } = useParams();
-   const streamQuery = useQuery(["stream", id], () => {
-      return StreamService.getStreamById(id);
+   const { streamId } = useParams();
+   const streamQuery = useQuery(["stream", streamId], () => {
+      return StreamService.getStreamById(streamId);
    });
-   const classesQuery = useQuery(["allClasses", id], () => {
-      return ClassService.getAllClasses(id);
+   const classesQuery = useQuery(["allClasses", streamId], () => {
+      return ClassService.getAllClasses(streamId);
    });
 
    if (classesQuery.isLoading || streamQuery.isLoading) return "Loading...";
@@ -23,13 +24,15 @@ export default function AllClasses() {
 
          <h1>{streamQuery.data.name}</h1>
          {classesQuery.data.map((item) => (
-            <div key={item.id}>
-               <div>{item.startDate}</div>
-               <div>{item.endDate}</div>
-               <div>Number of trainers: {item.trainers.length}</div>
-               <div>Number of trainees:{item.trainees.length}</div>
-               <Link>View details</Link>
-            </div>
+            <Box key={item.id} sx={{ marginBottom: "40px" }}>
+               <div>
+                  <div>{item.startDate}</div>
+                  <div>{item.endDate}</div>
+                  <div>Number of trainers: {item.trainers.length}</div>
+                  <div>Number of trainees:{item.trainees.length}</div>
+                  <Link to={`/streams/${streamId}/class/${item.id}`}>View details</Link>
+               </div>
+            </Box>
          ))}
       </>
    );

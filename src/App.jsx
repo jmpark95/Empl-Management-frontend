@@ -7,6 +7,7 @@ import DefaultLayout from "./components/DefaultLayout";
 import Dashboard from "./pages/Dashboard";
 import { ReactQueryDevtools } from "react-query/devtools";
 import AllClasses from "./pages/AllClasses";
+import ClassDetails from "./pages/ClassDetails";
 
 function App() {
    return (
@@ -19,7 +20,8 @@ function App() {
                <Route index element={<Dashboard />}></Route>
                <Route path="add-user" element={<h1>AddUser component will behere later</h1>}></Route>
                <Route path="streams" element={<Streams />}></Route>
-               <Route path="streams/classes/:id" element={<AllClasses />}></Route>
+               <Route path="streams/:streamId/classes" element={<AllClasses />}></Route>
+               <Route path="streams/:streamId/class/:classId" element={<ClassDetails />}></Route>
 
                <Route path="update-employee/:id" element={<h1>UpdateEmployee component will behere later</h1>}></Route>
                <Route path="error" element={<h1>Something went wrong</h1>} />
