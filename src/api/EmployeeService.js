@@ -61,6 +61,36 @@ export const EmployeeService = {
       }
    },
 
+   getAllRoles: async () => {
+      try {
+         const response = await axios.get(`${BACKEND_BASE_URL}/roles`);
+         return response.data;
+      } catch (error) {
+         console.error("Error getting roles:", error);
+         throw error;
+      }
+   },
+
+   updateEmployee: async (formikData) => {
+      const response = await axios.put(`${BACKEND_BASE_URL}/update`, formikData);
+      return response.data;
+   },
+
+   deleteEmployee: async (employeeId, role) => {
+      const response = await axios.delete(`${BACKEND_BASE_URL}/${employeeId}/${role}`);
+      return response.data;
+   },
+
+   createEmployee: async (formData) => {
+      try {
+         const response = await axios.post(`${BACKEND_BASE_URL}/employee`, formData);
+         return response.data;
+      } catch (error) {
+         console.error("Error adding employee:", error);
+         throw error;
+      }
+   },
+
    // getUser: async (id) => {
    //    try {
    //       const response = await axios.get(`${BACKEND_BASE_URL}/${id}`);

@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { ClassService } from "../api/ClassService";
 import { useQuery } from "react-query";
-import AddClass from "../components/AddClass";
+import AddClass from "../components/AddClassDialog";
 import { StreamService } from "../api/StreamService";
 import { Box } from "@mui/material";
 

@@ -1,6 +1,4 @@
-//import AddUser from "./pages/AddUser";
 import { Routes, Route } from "react-router-dom";
-//import UpdateEmployee from "./components/UpdateEmployee";
 import Login from "./pages/Login";
 import Streams from "./pages/Streams";
 import DefaultLayout from "./components/DefaultLayout";
@@ -8,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import { ReactQueryDevtools } from "react-query/devtools";
 import AllClasses from "./pages/AllClasses";
 import ClassDetails from "./pages/ClassDetails";
+import AllEmployees from "./pages/AllEmployees";
 
 function App() {
    return (
@@ -22,8 +21,8 @@ function App() {
                <Route path="streams" element={<Streams />}></Route>
                <Route path="streams/:streamId/classes" element={<AllClasses />}></Route>
                <Route path="streams/:streamId/class/:classId" element={<ClassDetails />}></Route>
+               <Route path="employees" element={<AllEmployees />}></Route>
 
-               <Route path="update-employee/:id" element={<h1>UpdateEmployee component will behere later</h1>}></Route>
                <Route path="error" element={<h1>Something went wrong</h1>} />
                <Route path="*" element={<h1>invalid url</h1>} />
             </Route>

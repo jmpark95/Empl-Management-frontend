@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ClassService } from "../api/ClassService";
 
-export default function AddStreamDialog() {
+export default function AddClassDialog() {
    const navigate = useNavigate();
    const { streamId } = useParams();
    const trainersQuery = useQuery("allTrainers", () => {
@@ -43,6 +43,7 @@ export default function AddStreamDialog() {
    };
 
    const handleClose = () => {
+      formik.resetForm();
       setOpen(false);
    };
 
