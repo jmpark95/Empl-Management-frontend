@@ -8,19 +8,24 @@ const drawerWidth = 240;
 export default function DefaultLayout() {
    const navigate = useNavigate();
 
+   function logout() {
+      sessionStorage.clear();
+      navigate("/login");
+   }
+
    return (
       <Box sx={{ display: "flex" }}>
          <CssBaseline />
          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar>
                <Typography variant="h6" noWrap component="div">
-                  Profile
+                  Hi $user
                </Typography>
                <Typography variant="h6" noWrap component="div">
-                  Logout
+                  <Link to="/profile">Profile</Link>
                </Typography>
+               <button onClick={logout}>Logout</button>
                <Link to="/">Home</Link>
-               <button onClick={() => navigate(-1)}>Go back </button>
             </Toolbar>
          </AppBar>
 
@@ -44,6 +49,8 @@ export default function DefaultLayout() {
 
          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Toolbar />
+            <button onClick={() => navigate(-1)}>Go back </button>
+
             <Outlet />
          </Box>
       </Box>

@@ -1,11 +1,13 @@
 import { Box, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { StreamService } from "../api/StreamService";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
 export default function Streams() {
+   const navigate = useNavigate();
+
    const [open, setOpen] = useState(false);
 
    const handleClickOpen = () => {
@@ -27,6 +29,8 @@ export default function Streams() {
    return (
       <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
          <Typography variant="h2">All Streams</Typography>
+         <button onClick={() => navigate(-1)}>Go back </button>
+
          <Button variant="outlined" onClick={handleClickOpen}>
             Add a stream
          </Button>

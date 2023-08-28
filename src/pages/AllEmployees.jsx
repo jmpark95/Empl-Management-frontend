@@ -93,6 +93,8 @@ export default function AllEmployees() {
 
    return (
       <div>
+         <button onClick={() => navigate(-1)}>Go back </button>
+
          <h1>All employees</h1>
          <AddEmployeeDialog />
          <div>

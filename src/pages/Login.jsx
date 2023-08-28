@@ -1,7 +1,10 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { AuthService } from "../api/AuthService";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+   const navigate = useNavigate();
    const formik = useFormik({
       initialValues: {
          email: "",
@@ -14,8 +17,15 @@ export default function Login() {
             .required("Email is required"),
          password: Yup.string().min(5, "Password must be a minimum of 5 characters").required("Password is required"),
       }),
-      onSubmit: (values) => {
-         console.log(values);
+      onSubmit: async (values, { resetForm }) => {
+         try {
+            const response = await AuthService.login(values);
+            sessionStorage.setItem("id", response.authentication.principal.id);
+            resetForm();
+            navigate("/");
+         } catch {
+            alert("Login fail");
+         }
       },
    });
 

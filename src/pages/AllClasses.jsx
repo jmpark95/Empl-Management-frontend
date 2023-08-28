@@ -1,11 +1,12 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ClassService } from "../api/ClassService";
 import { useQuery } from "react-query";
-import AddClass from "../components/AddClassDialog";
 import { StreamService } from "../api/StreamService";
 import { Box } from "@mui/material";
+import AddClassDialog from "../components/AddClassDialog";
 
 export default function AllClasses() {
+   const navigate = useNavigate();
    const { streamId } = useParams();
    const streamQuery = useQuery(["stream", streamId], () => {
       return StreamService.getStreamById(streamId);
@@ -20,7 +21,8 @@ export default function AllClasses() {
 
    return (
       <>
-         <AddClass />
+         <button onClick={() => navigate(-1)}>Go back </button>
+         <AddClassDialog />
 
          <h1>{streamQuery.data.name}</h1>
          {classesQuery.data.map((item) => (

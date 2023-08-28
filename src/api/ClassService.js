@@ -1,10 +1,8 @@
-import axios from "axios";
-
-const BACKEND_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/class`;
+import instance from "./AxiosConfig";
 
 export const ClassService = {
    getAllClasses: async (id) => {
-      const response = await axios.get(`${BACKEND_BASE_URL}/classes-by-stream`, {
+      const response = await instance.get(`/api/class/classes-by-stream`, {
          params: {
             streamId: id,
          },
@@ -13,16 +11,16 @@ export const ClassService = {
    },
 
    createClass: async (formikData) => {
-      await axios.post(`${BACKEND_BASE_URL}/create`, formikData);
+      await instance.post(`/api/class/create`, formikData);
    },
 
    getClass: async (classId) => {
-      const response = await axios.get(`${BACKEND_BASE_URL}/${classId}`);
+      const response = await instance.get(`/api/class/${classId}`);
       return response.data;
    },
 
    updateClass: async (classId, values) => {
-      const response = await axios.put(`${BACKEND_BASE_URL}/${classId}`, values);
+      const response = await instance.put(`/api/class/${classId}`, values);
       return response.data;
    },
 

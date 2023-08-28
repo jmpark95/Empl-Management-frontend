@@ -1,15 +1,13 @@
-import axios from "axios";
-
-const BACKEND_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/stream`;
+import instance from "./AxiosConfig";
 
 export const StreamService = {
    getAllStreams: async () => {
-      const response = await axios.get(`${BACKEND_BASE_URL}/streams`);
+      const response = await instance.get(`/api/stream/streams`);
       return response.data;
    },
 
    getStreamById: async (id) => {
-      const response = await axios.get(`${BACKEND_BASE_URL}/${id}`);
+      const response = await instance.get(`/api/stream/${id}`);
       return response.data;
    },
 };

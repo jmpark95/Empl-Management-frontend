@@ -1,32 +1,63 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { createContext, useEffect, useState } from "react";
+import { EmployeeService } from "./api/EmployeeService";
+
 import Login from "./pages/Login";
 import Streams from "./pages/Streams";
-import DefaultLayout from "./components/DefaultLayout";
 import Dashboard from "./pages/Dashboard";
-import { ReactQueryDevtools } from "react-query/devtools";
 import AllClasses from "./pages/AllClasses";
 import ClassDetails from "./pages/ClassDetails";
 import AllEmployees from "./pages/AllEmployees";
+import Profile from "./pages/Profile";
+import DefaultLayout from "./components/DefaultLayout";
+
+export const UserContext = createContext();
 
 function App() {
+   const navigate = useNavigate();
+   const location = useLocation();
+   const [user, setUser] = useState({});
+
+   useEffect(() => {
+      async function getUser() {
+         if (sessionStorage.getItem("id") !== null) {
+            try {
+               const response = await EmployeeService.getEmployee(sessionStorage.getItem("id"));
+               setUser(response);
+            } catch {
+               setUser(null);
+               navigate("/login");
+            }
+         }
+      }
+
+      getUser();
+   }, [location]);
+
    return (
       <div className="container">
-         <Routes>
-            <Route path="/login">
-               <Route index element={<Login />}></Route>
-            </Route>
-            <Route path="/" element={<DefaultLayout />}>
-               <Route index element={<Dashboard />}></Route>
-               <Route path="add-user" element={<h1>AddUser component will behere later</h1>}></Route>
-               <Route path="streams" element={<Streams />}></Route>
-               <Route path="streams/:streamId/classes" element={<AllClasses />}></Route>
-               <Route path="streams/:streamId/class/:classId" element={<ClassDetails />}></Route>
-               <Route path="employees" element={<AllEmployees />}></Route>
+         <UserContext.Provider value={user}>
+            <Routes>
+               <Route path="/" element={<DefaultLayout />}>
+                  <Route index element={<Dashboard />}></Route>
+                  <Route path="profile" element={<Profile />}></Route>
+                  <Route path="streams" element={<Streams />}></Route>
+                  <Route path="streams/:streamId/classes" element={<AllClasses />}></Route>
+                  <Route path="streams/:streamId/class/:classId" element={<ClassDetails />}></Route>
+                  <Route path="employees" element={<AllEmployees />}></Route>
+               </Route>
 
-               <Route path="error" element={<h1>Something went wrong</h1>} />
+               <Route path="/login">
+                  <Route index element={<Login />}></Route>
+               </Route>
+               <Route path="/error">
+                  <Route index element={<h1>Something went wrong</h1>}></Route>
+               </Route>
                <Route path="*" element={<h1>invalid url</h1>} />
-            </Route>
-         </Routes>
+            </Routes>
+         </UserContext.Provider>
+
          <ReactQueryDevtools initialIsOpen={false} />
       </div>
    );

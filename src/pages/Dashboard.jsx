@@ -1,5 +1,4 @@
 import { Box, Paper } from "@mui/material";
-//import { ClassService } from "../api/ClassService";
 import { StreamService } from "../api/StreamService";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -46,7 +45,7 @@ export default function Dashboard() {
          <Paper elevation={3}>
             <Link to={"/leave-requests"}>
                {leaveRequestsQuery.data.length}{" "}
-               {leaveRequestsQuery.data.length === 1 ? "Leave Request" : "Leave Request"}
+               {leaveRequestsQuery.data.length === 1 ? "Leave Request" : "Leave Requests"}
             </Link>
          </Paper>
       </Box>

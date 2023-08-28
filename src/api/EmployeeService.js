@@ -1,11 +1,9 @@
-import axios from "axios";
-
-const BACKEND_BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/employee`;
+import instance from "./AxiosConfig";
 
 export const EmployeeService = {
    getAllEmployees: async () => {
       try {
-         const response = await axios.get(`${BACKEND_BASE_URL}/employees`);
+         const response = await instance.get(`/api/employee/employees`);
          return response.data;
       } catch (error) {
          console.error("Error fetching employees:", error);
@@ -15,7 +13,7 @@ export const EmployeeService = {
 
    getAllTrainers: async () => {
       try {
-         const response = await axios.get(`${BACKEND_BASE_URL}/trainers`);
+         const response = await instance.get(`/api/employee/trainers`);
          return response.data;
       } catch (error) {
          console.error("Error getting trainers:", error);
@@ -25,7 +23,7 @@ export const EmployeeService = {
 
    getAllTrainees: async () => {
       try {
-         const response = await axios.get(`${BACKEND_BASE_URL}/trainees`);
+         const response = await instance.get(`/api/employee/trainees`);
          return response.data;
       } catch (error) {
          console.error("Error getting trainees:", error);
@@ -35,7 +33,7 @@ export const EmployeeService = {
 
    getAllUnregisteredTraineesByStreamId: async (id) => {
       try {
-         const response = await axios.get(`${BACKEND_BASE_URL}/trainees-by-stream`, {
+         const response = await instance.get(`/api/employee/trainees-by-stream`, {
             params: {
                streamId: id,
             },
@@ -49,7 +47,7 @@ export const EmployeeService = {
 
    getAllTraineesByStreamId: async (id) => {
       try {
-         const response = await axios.get(`${BACKEND_BASE_URL}/all-trainees-by-stream`, {
+         const response = await instance.get(`/api/employee/all-trainees-by-stream`, {
             params: {
                streamId: id,
             },
@@ -63,7 +61,7 @@ export const EmployeeService = {
 
    getAllRoles: async () => {
       try {
-         const response = await axios.get(`${BACKEND_BASE_URL}/roles`);
+         const response = await instance.get(`/api/employee/roles`);
          return response.data;
       } catch (error) {
          console.error("Error getting roles:", error);
@@ -72,18 +70,18 @@ export const EmployeeService = {
    },
 
    updateEmployee: async (formikData) => {
-      const response = await axios.put(`${BACKEND_BASE_URL}/update`, formikData);
+      const response = await instance.put(`/api/employee/update`, formikData);
       return response.data;
    },
 
    deleteEmployee: async (employeeId, role) => {
-      const response = await axios.delete(`${BACKEND_BASE_URL}/${employeeId}/${role}`);
+      const response = await instance.delete(`/api/employee/${employeeId}/${role}`);
       return response.data;
    },
 
-   createEmployee: async (formData) => {
+   createEmployee: async (formikData) => {
       try {
-         const response = await axios.post(`${BACKEND_BASE_URL}/employee`, formData);
+         const response = await instance.post(`/api/employee/employee`, formikData);
          return response.data;
       } catch (error) {
          console.error("Error adding employee:", error);
@@ -91,9 +89,30 @@ export const EmployeeService = {
       }
    },
 
+   getEmployee: async (employeeId) => {
+      try {
+         const response = await instance.get(`/api/employee/${employeeId}`);
+         return response.data;
+      } catch (error) {
+         sessionStorage.clear();
+         console.error("Error getting employee:", error);
+         throw error;
+      }
+   },
+
+   updatePassword: async (formikData) => {
+      try {
+         const response = await instance.patch(`/api/employee/password`, formikData);
+         return response.data;
+      } catch (error) {
+         console.error("Error updating password:", error);
+         throw error;
+      }
+   },
+
    // getUser: async (id) => {
    //    try {
-   //       const response = await axios.get(`${BACKEND_BASE_URL}/${id}`);
+   //       const response = await axios.get(`/api/employee/${id}`);
    //       return response.data;
    //    } catch (error) {
    //       console.error("Error fetching user:", error);
@@ -103,7 +122,7 @@ export const EmployeeService = {
 
    // addUser: async (formData) => {
    //    try {
-   //       const response = await axios.post(`${BACKEND_BASE_URL}/create`, formData);
+   //       const response = await axios.post(`/api/employee/create`, formData);
    //       return response.data;
    //    } catch (error) {
    //       console.error("Error adding user:", error);
@@ -113,7 +132,7 @@ export const EmployeeService = {
 
    // updateUser: async (formData) => {
    //    try {
-   //       const response = await axios.put(`${BACKEND_BASE_URL}/update`, formData);
+   //       const response = await axios.put(`/api/employee/update`, formData);
    //       return response.data;
    //    } catch (error) {
    //       console.error("Error updating user:", error);
@@ -123,7 +142,7 @@ export const EmployeeService = {
 
    // deleteUser: async (id) => {
    //    try {
-   //       await axios.delete(`${BACKEND_BASE_URL}/delete/${id}`);
+   //       await axios.delete(`/api/employee/delete/${id}`);
    //    } catch (error) {
    //       console.error("Error deleting user:", error);
    //       throw error;
@@ -132,7 +151,7 @@ export const EmployeeService = {
 
    // getAllRoles: async () => {
    //    try {
-   //       const response = await axios.get(`${BACKEND_BASE_URL}/roles`);
+   //       const response = await axios.get(`/api/employee/roles`);
    //       return response.data;
    //    } catch (error) {
    //       console.error("Error getting roles:", error);

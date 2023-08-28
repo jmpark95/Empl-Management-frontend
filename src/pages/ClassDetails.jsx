@@ -79,6 +79,8 @@ export default function ClassDetails() {
 
    return (
       <div>
+         <button onClick={() => navigate(-1)}>Go back </button>
+
          <Button variant="outlined" onClick={handleClickOpen}>
             Edit class
          </Button>
