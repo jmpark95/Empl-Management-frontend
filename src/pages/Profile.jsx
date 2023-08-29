@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../App";
 import ChangePasswordDialog from "../components/ChangePasswordDialog";
+import { calculateLeaveBalance } from "../api/utils";
 
 export default function Profile() {
    const User = useContext(UserContext);
@@ -14,6 +15,7 @@ export default function Profile() {
          <div>Start Date: {User?.startDate}</div>
          <div>Salary: {User?.salary}</div>
          <div>Leave Taken: {User?.leaveTaken} hours</div>
+         <div>Leave Balance: {calculateLeaveBalance(User?.startDate) - User?.leaveTaken} hours</div>
          <div>Role: {User.role?.role}</div>
          <ChangePasswordDialog />
       </div>

@@ -16,4 +16,9 @@ export const LeaveService = {
       const response = await instance.get(`/api/leave/leave-requests`);
       return response.data;
    },
+
+   createLeaveRequest: async (formData) => {
+      const response = await instance.post(`/api/leave/leave-request`, formData);
+      return response.data;
+   },
 };

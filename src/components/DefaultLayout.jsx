@@ -2,14 +2,18 @@
 import { Box, Drawer, AppBar, CssBaseline, Toolbar, Typography, Divider } from "@mui/material";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import MenuItem from "./MenuItem";
+import { useContext } from "react";
+import { UserContext } from "../App";
 
 const drawerWidth = 240;
 
-export default function DefaultLayout() {
+export default function DefaultLayout({ setUser }) {
+   const User = useContext(UserContext);
    const navigate = useNavigate();
 
    function logout() {
       sessionStorage.clear();
+      setUser(null);
       navigate("/login");
    }
 
@@ -18,9 +22,12 @@ export default function DefaultLayout() {
          <CssBaseline />
          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar>
-               <Typography variant="h6" noWrap component="div">
-                  Hi $user
-               </Typography>
+               {User ? (
+                  <Typography variant="h6" noWrap component="div">
+                     Hi {User.firstName}
+                  </Typography>
+               ) : null}
+
                <Typography variant="h6" noWrap component="div">
                   <Link to="/profile">Profile</Link>
                </Typography>
@@ -43,6 +50,7 @@ export default function DefaultLayout() {
                <MenuItem text="Employees" link="/employees" />
                <MenuItem text="Streams" link="/streams" />
                <MenuItem text="Leave Requests" link="/leave-requests" />
+               <MenuItem text="Leave" link="/leave" />
                <Divider />
             </Box>
          </Drawer>
