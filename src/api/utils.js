@@ -117,6 +117,19 @@ export function calculateTotalWorkingHoursBetweenStartDateAndEndDate(startDate, 
    }
 }
 
+export function dateComparator(date1, date2) {
+   const parsedDate1 = new Date(date1);
+   const parsedDate2 = new Date(date2);
+
+   if (parsedDate1 < parsedDate2) {
+      return -1;
+   }
+   if (parsedDate1 > parsedDate2) {
+      return 1;
+   }
+   return 0;
+}
+
 // //    const currentDate = new Date();
 // //    const startWorkingTime = setMinutes(setHours(currentDate, 9), 0); // 9:00 AM
 // //    console.log(startWorkingTime);

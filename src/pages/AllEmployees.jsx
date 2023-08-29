@@ -5,7 +5,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Button } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import EditEmployee from "../components/EditEmployeeDialog";
-import { formatDate } from "../api/utils";
+import { dateComparator, formatDate } from "../api/utils";
 import { useNavigate } from "react-router-dom";
 import AddEmployeeDialog from "../components/AddEmployeeDialog";
 
@@ -30,18 +30,7 @@ export default function AllEmployees() {
       {
          headerName: "Start Date",
          field: "startDate",
-         comparator: (date1, date2) => {
-            const parsedDate1 = new Date(date1);
-            const parsedDate2 = new Date(date2);
-
-            if (parsedDate1 < parsedDate2) {
-               return -1;
-            }
-            if (parsedDate1 > parsedDate2) {
-               return 1;
-            }
-            return 0;
-         },
+         comparator: dateComparator,
       },
       { field: "salary" },
       {
@@ -56,8 +45,7 @@ export default function AllEmployees() {
       },
    ];
 
-   async function handleDelete(params) {
-      console.log(params);
+   const handleDelete = async (params) => {
       if (confirm("Are you sure you want to delete this employee?")) {
          try {
             await EmployeeService.deleteEmployee(params.data.id, params.data.role);
@@ -66,7 +54,8 @@ export default function AllEmployees() {
             navigate("/error");
          }
       }
-   }
+   };
+
    const onFilterTextBoxChanged = useCallback(() => {
       gridRef.current.api.setQuickFilter(document.getElementById("filter-text-box").value);
    }, []);
@@ -93,8 +82,6 @@ export default function AllEmployees() {
 
    return (
       <div>
-         <button onClick={() => navigate(-1)}>Go back </button>
-
          <h1>All employees</h1>
          <AddEmployeeDialog />
          <div>

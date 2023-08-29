@@ -5,10 +5,10 @@ import DatePicker from "react-datepicker";
 import { setHours, setMinutes } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import { LeaveService } from "../api/LeaveService";
-import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "react-query";
 
 export default function SubmitLeaveDialog({ user }) {
-   const navigate = useNavigate();
+   const queryClient = useQueryClient();
    const [open, setOpen] = useState(false);
    const [startDate, setStartDate] = useState();
    const [endDate, setEndDate] = useState();
@@ -45,7 +45,7 @@ export default function SubmitLeaveDialog({ user }) {
             endDate,
             totalHours,
          });
-         navigate(0);
+         queryClient.refetchQueries("allLeaveRequests");
          setStartDate(null);
          setEndDate(null);
          setOpen(false);
@@ -97,6 +97,11 @@ export default function SubmitLeaveDialog({ user }) {
                />
 
                <div>Total hours: {totalHours && totalHours > 0 && startDate < endDate ? totalHours : null}</div>
+               <div>
+                  {totalHours > calculateLeaveBalance(user?.startDate) - user?.leaveTaken
+                     ? "Exceeded leave balance"
+                     : ""}
+               </div>
             </DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>
@@ -108,46 +113,3 @@ export default function SubmitLeaveDialog({ user }) {
       </>
    );
 }
-
-// const formik = useFormik({
-//     initialValues: {
-//        employeeId: sessionStorage.getItem("id"),
-//        startDate: "",
-//        endDate: "",
-//     },
-//     validationSchema: Yup.object({}),
-//     onSubmit: async (values, { resetForm }) => {
-//        await EmployeeService.createEmployee(values);
-//        navigate(0);
-//        resetForm();
-//        handleClose();
-//     },
-//  });
-
-// <TextField
-//                   InputLabelProps={{ shrink: true }}
-//                   variant="outlined"
-//                   label="Start date"
-//                   type="datetime-local"
-//                   name="startDate"
-//                   value={formik.values.startDate}
-//                   onChange={formik.handleChange}
-//                />
-//                {formik.errors.startDate ? <p>{formik.errors.startDate}</p> : null}
-
-//                <TextField
-//                   InputLabelProps={{ shrink: true }}
-//                   variant="outlined"
-//                   label="End date"
-//                   type="datetime-local"
-//                   name="endDate"
-//                   //   inputProps={{
-//                   //      max: calculateLeaveMaxDate(
-//                   //         formik.values.startDate,
-//                   //         calculateLeaveBalance(user?.startDate) - user?.leaveTaken
-//                   //      ),
-//                   //   }}
-//                   value={formik.values.endDate}
-//                   onChange={formik.handleChange}
-//                />
-//                {formik.errors.endDate ? <p>{formik.errors.endDate}</p> : null}
