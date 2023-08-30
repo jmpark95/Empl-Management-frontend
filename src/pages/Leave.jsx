@@ -6,8 +6,10 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { dateComparator, formatDate } from "../api/utils";
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 
-export default function Leave({ user }) {
+export default function Leave() {
+   const [user] = useOutletContext();
    const [defaultColDef] = useState({ sortable: true, unSortIcon: true });
    const leaveQuery = useQuery("allLeaveRequests", () => {
       return LeaveService.getAllLeaveRequestsByEmployeeId(sessionStorage.getItem("id"));

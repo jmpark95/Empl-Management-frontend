@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { EmployeeService } from "../api/EmployeeService";
+import { useNavigate } from "react-router-dom";
 
 export default function SetPassword() {
+   const navigate = useNavigate();
    const formik = useFormik({
       initialValues: {
          employeeId: sessionStorage.getItem("id"),
@@ -14,6 +16,7 @@ export default function SetPassword() {
       onSubmit: async (values) => {
          try {
             await EmployeeService.setPassword(values);
+            navigate("/");
          } catch {
             alert("error");
          }

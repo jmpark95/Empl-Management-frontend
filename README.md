@@ -12,3 +12,8 @@ Some important business logic regarding leave requests
 -  Leave request from 9 to 2:30 = 4.5 hr leave
 -  Leave request from 12:30 to 5:30 = 4 hr leave
 -  Leave request from 1:30 to 5:30 = 4 hr leave (Leave has been requested after the lunch break)
+
+Other
+
+-  When HR creates an account for a new employee, password is initially set to their email. On first login, employee is prompted to reset password in order to access application
+-  A trainee can only be a member of 1 class

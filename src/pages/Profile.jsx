@@ -1,22 +1,21 @@
-import { useContext } from "react";
-import { UserContext } from "../App";
 import ChangePasswordDialog from "../components/ChangePasswordDialog";
 import { calculateLeaveBalance } from "../api/utils";
+import { useOutletContext } from "react-router-dom";
 
 export default function Profile() {
-   const User = useContext(UserContext);
+   const [user] = useOutletContext();
 
    return (
       <div>
          <div>
-            Name: {User?.firstName} {User?.lastName}
+            Name: {user.firstName} {user.lastName}
          </div>
-         <div>Email: {User?.email}</div>
-         <div>Start Date: {User?.startDate}</div>
-         <div>Salary: {User?.salary}</div>
-         <div>Leave Taken: {User?.leaveTaken} hours</div>
-         <div>Leave Balance: {(calculateLeaveBalance(User?.startDate) - User?.leaveTaken).toFixed(1)} hours</div>
-         <div>Role: {User.role?.role}</div>
+         <div>Email: {user.email}</div>
+         <div>Start Date: {user.startDate}</div>
+         <div>Salary: {user.salary}</div>
+         <div>Leave Taken: {user.leaveTaken} hours</div>
+         <div>Leave Balance: {(calculateLeaveBalance(user.startDate) - user.leaveTaken).toFixed(1)} hours</div>
+         <div>Role: {user.role.role}</div>
          <ChangePasswordDialog />
       </div>
    );

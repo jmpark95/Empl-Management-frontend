@@ -2,19 +2,48 @@
 import { Box, Drawer, AppBar, CssBaseline, Toolbar, Typography, Divider } from "@mui/material";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import MenuItem from "./MenuItem";
-import { useContext } from "react";
-import { UserContext } from "../App";
+import { useEffect, useState } from "react";
+import { EmployeeService } from "../api/EmployeeService";
 
 const drawerWidth = 240;
 
-export default function DefaultLayout({ user, setUser }) {
-   const User = useContext(UserContext);
+export default function DefaultLayout() {
    const navigate = useNavigate();
+   const [user, setUser] = useState({});
+   const [loading, setLoading] = useState(true);
 
-   function logout() {
+   useEffect(() => {
+      async function getUser() {
+         if (sessionStorage.getItem("id") === null) {
+            navigate("/login");
+         }
+
+         if (sessionStorage.getItem("id") !== null) {
+            try {
+               const response = await EmployeeService.getEmployee(sessionStorage.getItem("id"));
+               if (response.hasPersonallySetPassword === false) {
+                  navigate("/password");
+               }
+               setUser(response);
+            } catch {
+               setUser(null);
+               navigate("/login");
+            }
+         }
+         setLoading(false);
+      }
+
+      getUser();
+   }, []);
+
+   const logout = () => {
       sessionStorage.clear();
       setUser(null);
       navigate("/login");
+   };
+
+   if (loading) {
+      return "Loading";
    }
 
    return (
@@ -22,11 +51,9 @@ export default function DefaultLayout({ user, setUser }) {
          <CssBaseline />
          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar>
-               {User ? (
-                  <Typography variant="h6" noWrap component="div">
-                     Hi {User.firstName}
-                  </Typography>
-               ) : null}
+               <Typography variant="h6" noWrap component="div">
+                  Hi {user.firstName}
+               </Typography>
 
                <Typography variant="h6" noWrap component="div">
                   <Link to="/profile">Profile</Link>
@@ -65,7 +92,7 @@ export default function DefaultLayout({ user, setUser }) {
             <Toolbar />
             <button onClick={() => navigate(-1)}>Go back </button>
 
-            <Outlet />
+            <Outlet context={[user, setUser]} />
          </Box>
       </Box>
    );

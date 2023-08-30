@@ -20,7 +20,6 @@ export default function Login() {
       onSubmit: async (values, { resetForm }) => {
          try {
             const response = await AuthService.login(values);
-            console.log(response);
             sessionStorage.setItem("id", response.authentication.principal.id);
             resetForm();
             navigate("/");

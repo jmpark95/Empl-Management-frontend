@@ -154,7 +154,7 @@ export default function AddEmployeeDialog() {
             </DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>
-               <Button onClick={formik.handleSubmit}>Confirm</Button>
+               <Button onClick={formik.handleSubmit}>Submit</Button>
             </DialogActions>
          </Dialog>
       </>

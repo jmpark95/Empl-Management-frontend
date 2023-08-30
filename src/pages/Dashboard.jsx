@@ -1,11 +1,13 @@
 import { Box, Paper } from "@mui/material";
 import { StreamService } from "../api/StreamService";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { useQuery } from "react-query";
 import { EmployeeService } from "../api/EmployeeService";
 import { LeaveService } from "../api/LeaveService";
 
-export default function Dashboard({ user }) {
+export default function Dashboard() {
+   const [user] = useOutletContext();
+
    const streamsQuery = useQuery("allStreams", () => {
       return StreamService.getAllStreams();
    });
