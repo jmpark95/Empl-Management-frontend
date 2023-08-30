@@ -1,14 +1,14 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { LeaveService } from "../api/LeaveService";
 import { useState } from "react";
 import { dateComparator, formatDate } from "../api/utils";
 import { AgGridReact } from "ag-grid-react";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 export default function AllLeaveRequests() {
-   const navigate = useNavigate();
+   const queryClient = useQueryClient();
    const [defaultColDef] = useState({ sortable: true, unSortIcon: true });
+
    const leaveQuery = useQuery("allPendingLeaveRequests", () => {
       return LeaveService.getAllPendingLeaveRequests();
    });
@@ -69,17 +69,24 @@ export default function AllLeaveRequests() {
    const handleApprove = async (params) => {
       if (confirm("Are you sure you want to approve this request?")) {
          await LeaveService.approveLeaveRequest(params.data.id, params.data.requester.id, params.data.totalHours);
-         //await queryClient.refetchQueries("allPendingLeaveRequests");
-         navigate(0); //seems like there is a bug where refetching query isn't returning most up to date server state despite await? Will use navigate until I can find a fix
+         queryClient.refetchQueries("allPendingLeaveRequests");
+         ///seems like there is a bug where refetching query isn't returning most up to date server state despite await? Will use setTimetout until I can find a fix
          //I'm thinking it may be to do with ag-grid and how i'm trying to integrate react query with ag-grid when I shouldn't?
+         //Maybe database operation is not completed before fetching all pending requests?
+         setTimeout(() => {
+            queryClient.refetchQueries("allPendingLeaveRequests");
+         }, 500);
       }
    };
 
    const handleDecline = async (params) => {
       if (confirm("Are you sure you want to decline this request?")) {
          await LeaveService.declineLeaveRequest(params.data.id);
-         //await queryClient.refetchQueries("allPendingLeaveRequests");
-         navigate(0);
+         queryClient.refetchQueries("allPendingLeaveRequests");
+
+         setTimeout(() => {
+            queryClient.refetchQueries("allPendingLeaveRequests");
+         }, 500);
       }
    };
 

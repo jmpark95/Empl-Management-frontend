@@ -110,6 +110,16 @@ export const EmployeeService = {
       }
    },
 
+   setPassword: async (formikData) => {
+      try {
+         const response = await instance.patch(`/api/employee/set-password`, formikData);
+         return response.data;
+      } catch (error) {
+         console.error("Error setting password:", error);
+         throw error;
+      }
+   },
+
    // getUser: async (id) => {
    //    try {
    //       const response = await axios.get(`/api/employee/${id}`);

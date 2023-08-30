@@ -7,7 +7,7 @@ import { UserContext } from "../App";
 
 const drawerWidth = 240;
 
-export default function DefaultLayout({ setUser }) {
+export default function DefaultLayout({ user, setUser }) {
    const User = useContext(UserContext);
    const navigate = useNavigate();
 
@@ -46,11 +46,17 @@ export default function DefaultLayout({ setUser }) {
          >
             <Toolbar />
             <Box sx={{ overflow: "auto" }}>
-               <MenuItem text="Dashboard" link="/" />
-               <MenuItem text="Employees" link="/employees" />
-               <MenuItem text="Streams" link="/streams" />
-               <MenuItem text="Leave Requests" link="/leave-requests" />
-               <MenuItem text="Leave" link="/leave" />
+               {user && user.role?.role === "HR" ? (
+                  <>
+                     <MenuItem text="Dashboard" link="/" />
+                     <MenuItem text="Employees" link="/employees" />
+                     <MenuItem text="Streams" link="/streams" />
+                     <MenuItem text="Leave Requests" link="/leave-requests" />
+                  </>
+               ) : (
+                  <MenuItem text="Leave" link="/leave" />
+               )}
+
                <Divider />
             </Box>
          </Drawer>
