@@ -15,7 +15,7 @@ export default function Profile() {
          <div>Start Date: {User?.startDate}</div>
          <div>Salary: {User?.salary}</div>
          <div>Leave Taken: {User?.leaveTaken} hours</div>
-         <div>Leave Balance: {calculateLeaveBalance(User?.startDate) - User?.leaveTaken} hours</div>
+         <div>Leave Balance: {(calculateLeaveBalance(User?.startDate) - User?.leaveTaken).toFixed(1)} hours</div>
          <div>Role: {User.role?.role}</div>
          <ChangePasswordDialog />
       </div>

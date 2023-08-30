@@ -12,6 +12,7 @@ import AllEmployees from "./pages/AllEmployees";
 import Profile from "./pages/Profile";
 import DefaultLayout from "./components/DefaultLayout";
 import Leave from "./pages/Leave";
+import AllLeaveRequests from "./pages/AllLeaveRequests";
 
 export const UserContext = createContext();
 
@@ -48,6 +49,7 @@ function App() {
                   <Route path="streams/:streamId/class/:classId" element={<ClassDetails />}></Route>
                   <Route path="employees" element={<AllEmployees />}></Route>
                   <Route path="leave" element={<Leave user={user} />}></Route>
+                  <Route path="leave-requests" element={<AllLeaveRequests />}></Route>
                </Route>
 
                <Route path="/login">
