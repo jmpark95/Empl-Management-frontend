@@ -1,4 +1,4 @@
-import { Button, TextField, Dialog, DialogActions, DialogContent, Autocomplete } from "@mui/material";
+import { Button, TextField, Dialog, DialogActions, DialogContent, Autocomplete, Container, Box } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { EmployeeService } from "../api/EmployeeService";
@@ -10,14 +10,7 @@ import { ClassService } from "../api/ClassService";
 export default function AddClassDialog() {
    const navigate = useNavigate();
    const { streamId } = useParams();
-   const trainersQuery = useQuery("allTrainers", () => {
-      return EmployeeService.getAllTrainers();
-   });
-   const traineesQuery = useQuery("allTrainees", () => {
-      return EmployeeService.getAllUnregisteredTraineesByStreamId(streamId);
-   });
    const [open, setOpen] = useState(false);
-
    const formik = useFormik({
       initialValues: {
          streamId: streamId,
@@ -30,6 +23,8 @@ export default function AddClassDialog() {
          startDate: Yup.string().required("Start date is required"),
          endDate: Yup.string().required("End date is required"),
       }),
+      validateOnChange: false,
+      validateOnBlur: false,
       onSubmit: async (values, { resetForm }) => {
          await ClassService.createClass(values);
          navigate(0);
@@ -37,6 +32,15 @@ export default function AddClassDialog() {
          handleClose();
       },
    });
+
+   const trainersQuery = useQuery("allTrainers", () => {
+      return EmployeeService.getAllTrainers();
+   });
+   const traineesQuery = useQuery("allTrainees", () => {
+      return EmployeeService.getAllUnregisteredTraineesByStreamId(streamId);
+   });
+   if (trainersQuery.isLoading || traineesQuery.isLoading) return "Loading...";
+   if (trainersQuery.error || traineesQuery.error) return "An error has occurred: ";
 
    const handleClickOpen = () => {
       setOpen(true);
@@ -47,69 +51,70 @@ export default function AddClassDialog() {
       setOpen(false);
    };
 
-   if (trainersQuery.isLoading || traineesQuery.isLoading) return "Loading...";
-
-   if (trainersQuery.error || traineesQuery.error) return "An error has occurred: ";
-
    return (
       <>
          <Button variant="outlined" onClick={handleClickOpen}>
             Add a class
          </Button>
-         <Dialog open={open} onClose={handleClose}>
+         <Dialog open={open} onClose={handleClose} fullWidth>
             <DialogContent>
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="Start date"
-                  type="date"
-                  name="startDate"
-                  value={formik.values.startDate}
-                  onChange={formik.handleChange}
-               />
-               {formik.errors.startDate ? <p>{formik.errors.startDate}</p> : null}
+               <Container sx={{ textAlign: "center" }} component="main" maxWidth="xs">
+                  <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                     <TextField
+                        error={formik.errors.startDate}
+                        helperText={formik.errors.startDate ? formik.errors.startDate : " "}
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        label="Start date"
+                        type="date"
+                        name="startDate"
+                        value={formik.values.startDate}
+                        onChange={formik.handleChange}
+                     />
+                     <TextField
+                        error={formik.errors.endDate}
+                        helperText={formik.errors.endDate ? formik.errors.endDate : " "}
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        label="End date"
+                        type="date"
+                        name="endDate"
+                        value={formik.values.endDate}
+                        onChange={formik.handleChange}
+                     />
 
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="End date"
-                  type="date"
-                  name="endDate"
-                  value={formik.values.endDate}
-                  onChange={formik.handleChange}
-               />
-               {formik.errors.endDate ? <p>{formik.errors.endDate}</p> : null}
+                     <Autocomplete
+                        multiple
+                        id="tags-outlined"
+                        options={trainersQuery.data}
+                        getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+                        filterSelectedOptions
+                        renderInput={(params) => (
+                           <TextField {...params} label="Add trainer(s)" placeholder="Search trainer" />
+                        )}
+                        onChange={(event, newValue) => {
+                           const trainerIds = newValue.map((trainer) => trainer.id);
+                           formik.setFieldValue("trainerIds", trainerIds);
+                        }}
+                     />
 
-               <Autocomplete
-                  multiple
-                  id="tags-outlined"
-                  options={trainersQuery.data}
-                  getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-                  filterSelectedOptions
-                  renderInput={(params) => (
-                     <TextField {...params} label="Add trainer(s)" placeholder="Search trainer" />
-                  )}
-                  onChange={(event, newValue) => {
-                     const trainerIds = newValue.map((trainer) => trainer.id);
-                     formik.setFieldValue("trainerIds", trainerIds);
-                  }}
-               />
-
-               <Autocomplete
-                  multiple
-                  id="tags-outlined"
-                  options={traineesQuery.data}
-                  getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-                  filterSelectedOptions
-                  renderInput={(params) => (
-                     <TextField {...params} label="Add trainee(s)" placeholder="Search trainee" />
-                  )}
-                  onChange={(event, newValue) => {
-                     const traineeIds = newValue.map((trainee) => trainee.id);
-                     formik.setFieldValue("traineeIds", traineeIds);
-                  }}
-                  noOptionsText={"No more trainees left to add"}
-               />
+                     <Autocomplete
+                        multiple
+                        id="tags-outlined"
+                        options={traineesQuery.data}
+                        getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+                        filterSelectedOptions
+                        renderInput={(params) => (
+                           <TextField {...params} label="Add trainee(s)" placeholder="Search trainee" />
+                        )}
+                        onChange={(event, newValue) => {
+                           const traineeIds = newValue.map((trainee) => trainee.id);
+                           formik.setFieldValue("traineeIds", traineeIds);
+                        }}
+                        noOptionsText={"No more trainees left to add"}
+                     />
+                  </Box>
+               </Container>
             </DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>
