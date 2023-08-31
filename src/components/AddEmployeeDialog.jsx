@@ -8,6 +8,9 @@ import {
    FormControl,
    Select,
    MenuItem,
+   Container,
+   Box,
+   FormHelperText,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -40,6 +43,8 @@ export default function AddEmployeeDialog() {
          startDate: Yup.string().required("Start date is required"),
          salary: Yup.string().required("Salary is required"),
       }),
+      validateOnChange: false,
+      validateOnBlur: false,
       onSubmit: async (values, { resetForm }) => {
          await EmployeeService.createEmployee(values);
          navigate(0);
@@ -72,85 +77,92 @@ export default function AddEmployeeDialog() {
          </Button>
          <Dialog open={open} onClose={handleClose}>
             <DialogContent>
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="First Name"
-                  type="text"
-                  name="firstName"
-                  value={formik.values.firstName}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-               />
-               {formik.errors.firstName ? <p>{formik.errors.firstName}</p> : null}
+               <Container sx={{ textAlign: "center" }} component="main" maxWidth="xs">
+                  <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                     <TextField
+                        InputLabelProps={{ shrink: true }}
+                        error={formik.errors.firstName}
+                        helperText={formik.errors.firstName ? formik.errors.firstName : " "}
+                        variant="outlined"
+                        label="First Name"
+                        type="text"
+                        name="firstName"
+                        value={formik.values.firstName}
+                        onChange={formik.handleChange}
+                     />
 
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="Surname"
-                  type="text"
-                  name="lastName"
-                  value={formik.values.lastName}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-               />
-               {formik.errors.lastName ? <p>{formik.errors.lastName}</p> : null}
+                     <TextField
+                        InputLabelProps={{ shrink: true }}
+                        error={formik.errors.lastName}
+                        helperText={formik.errors.lastName ? formik.errors.lastName : " "}
+                        variant="outlined"
+                        label="Surname"
+                        type="text"
+                        name="lastName"
+                        value={formik.values.lastName}
+                        onChange={formik.handleChange}
+                     />
 
-               <FormControl fullWidth>
-                  <InputLabel id="role-label">Role</InputLabel>
-                  <Select
-                     labelId="role-label"
-                     id="role"
-                     name="role"
-                     value={formik.values.role}
-                     label="Age"
-                     onChange={formik.handleChange}
-                     onBlur={formik.handleBlur}
-                  >
-                     {roles.map((role) => (
-                        <MenuItem key={role.id} value={role.role}>
-                           {role.role}
-                        </MenuItem>
-                     ))}
-                  </Select>
-               </FormControl>
-               {formik.errors.role ? <p>{formik.errors.role}</p> : null}
+                     <FormControl fullWidth error={formik.errors.role}>
+                        <InputLabel id="role-label">Role</InputLabel>
+                        <Select
+                           labelId="role-label"
+                           id="role"
+                           name="role"
+                           value={formik.values.role}
+                           label="Age"
+                           onChange={formik.handleChange}
+                        >
+                           {roles.map((role) => (
+                              <MenuItem key={role.id} value={role.role}>
+                                 {role.role}
+                              </MenuItem>
+                           ))}
+                        </Select>
+                        {formik.errors.role ? (
+                           <FormHelperText>{formik.errors.role}</FormHelperText>
+                        ) : (
+                           <FormHelperText> </FormHelperText>
+                        )}
+                     </FormControl>
 
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="Email"
-                  type="email"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-               />
-               {formik.errors.email ? <p>{formik.errors.email}</p> : null}
+                     <TextField
+                        error={formik.errors.email}
+                        helperText={formik.errors.email ? formik.errors.email : " "}
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        label="Email"
+                        type="email"
+                        name="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                     />
 
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="Start date"
-                  type="date"
-                  name="startDate"
-                  value={formik.values.startDate}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-               />
-               {formik.errors.startDate ? <p>{formik.errors.startDate}</p> : null}
+                     <TextField
+                        error={formik.errors.startDate}
+                        helperText={formik.errors.startDate ? formik.errors.startDate : " "}
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        label="Start date"
+                        type="date"
+                        name="startDate"
+                        value={formik.values.startDate}
+                        onChange={formik.handleChange}
+                     />
 
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="Salary"
-                  type="number"
-                  name="salary"
-                  value={formik.values.salary}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-               />
-               {formik.errors.salary ? <p>{formik.errors.salary}</p> : null}
+                     <TextField
+                        error={formik.errors.salary}
+                        helperText={formik.errors.salary ? formik.errors.salary : " "}
+                        InputLabelProps={{ shrink: true }}
+                        variant="outlined"
+                        label="Salary"
+                        type="number"
+                        name="salary"
+                        value={formik.values.salary}
+                        onChange={formik.handleChange}
+                     />
+                  </Box>
+               </Container>
             </DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>

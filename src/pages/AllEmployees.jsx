@@ -2,9 +2,9 @@ import { EmployeeService } from "../api/EmployeeService";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { Button } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
-import EditEmployee from "../components/EditEmployeeDialog";
+import EditEmployeeDialog from "../components/EditEmployeeDialog";
 import { dateComparator, formatDate } from "../api/utils";
 import { useNavigate } from "react-router-dom";
 import AddEmployeeDialog from "../components/AddEmployeeDialog";
@@ -38,8 +38,11 @@ export default function AllEmployees() {
          sortable: false,
          cellRenderer: (params) => (
             <>
-               <EditEmployee params={params} />
-               <Button onClick={() => handleDelete(params)}>Delete</Button>
+               <EditEmployeeDialog params={params} />
+
+               <Button onClick={() => handleDelete(params)}>
+                  <Typography variant="body2">Delete</Typography>
+               </Button>
             </>
          ),
       },
@@ -49,8 +52,10 @@ export default function AllEmployees() {
       if (confirm("Are you sure you want to delete this employee?")) {
          try {
             await EmployeeService.deleteEmployee(params.data.id, params.data.role);
+            alert("Success!");
             navigate(0);
          } catch {
+            alert("error");
             navigate("/error");
          }
       }
@@ -80,22 +85,33 @@ export default function AllEmployees() {
       getAllEmployees();
    }, []);
 
+   const onFirstDataRendered = useCallback(() => {
+      gridRef.current.api.sizeColumnsToFit();
+   }, []);
+
    return (
-      <div>
+      <Box>
          <h1>All employees</h1>
-         <AddEmployeeDialog />
-         <div>
-            <input type="text" id="filter-text-box" placeholder="Filter by keyword" onChange={onFilterTextBoxChanged} />
-         </div>
-         <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+         <Box display={"flex"} justifyContent={"space-around"} sx={{ mb: "2rem" }}>
+            <TextField
+               type="text"
+               id="filter-text-box"
+               placeholder="Filter employee by keyword"
+               onChange={onFilterTextBoxChanged}
+            ></TextField>
+            <AddEmployeeDialog />
+         </Box>
+
+         <div className="ag-theme-alpine" style={{ height: 500, width: "100%" }}>
             <AgGridReact
                ref={gridRef}
                defaultColDef={defaultColDef}
                columnDefs={columnDefs}
                rowData={rowData}
                suppressMenuHide={true}
+               onFirstDataRendered={onFirstDataRendered}
             ></AgGridReact>
          </div>
-      </div>
+      </Box>
    );
 }
