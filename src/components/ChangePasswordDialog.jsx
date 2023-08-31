@@ -1,4 +1,4 @@
-import { Button, TextField, Dialog, DialogActions, DialogContent } from "@mui/material";
+import { Button, TextField, Dialog, DialogActions, DialogContent, Container, Box, Typography } from "@mui/material";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -16,18 +16,19 @@ export default function ChangePasswordDialog() {
          confirmPassword: "",
       },
       validationSchema: Yup.object({
-         oldPassword: Yup.string().required("Password is required"),
+         oldPassword: Yup.string().required("Please enter old password"),
          newPassword: Yup.string()
             .min(5, "Password must be a minimum of 5 characters")
-            .required("Password is required"),
+            .required("Please enter new password"),
          confirmPassword: Yup.string()
             .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
-            .required("Password is required"),
+            .required("Please confirm new password"),
       }),
+      validateOnChange: false,
+      validateOnBlur: false,
       onSubmit: async (values, { resetForm }) => {
          try {
             await EmployeeService.updatePassword(values);
-            alert("success!");
             resetForm();
             handleClose();
          } catch (error) {
@@ -42,6 +43,8 @@ export default function ChangePasswordDialog() {
 
    const handleClose = () => {
       setOpen(false);
+      setError("");
+      formik.resetForm();
    };
 
    return (
@@ -49,42 +52,53 @@ export default function ChangePasswordDialog() {
          <Button variant="outlined" onClick={handleClickOpen}>
             Change Password
          </Button>
+
          <Dialog open={open} onClose={handleClose}>
             <DialogContent>
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="Old Password"
-                  type="password"
-                  name="oldPassword"
-                  value={formik.values.oldPassword}
-                  onChange={formik.handleChange}
-               />
-               {formik.errors.oldPassword ? <p>{formik.errors.oldPassword}</p> : null}
+               <Container sx={{ textAlign: "center" }} component="main" maxWidth="xs">
+                  <Box sx={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                     <TextField
+                        InputLabelProps={{ shrink: true }}
+                        error={formik.errors.oldPassword}
+                        helperText={formik.errors.oldPassword ? formik.errors.oldPassword : " "}
+                        label="Old Password"
+                        variant="outlined"
+                        type="password"
+                        name="oldPassword"
+                        value={formik.values.oldPassword}
+                        onChange={formik.handleChange}
+                     />
 
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="New Password"
-                  type="password"
-                  name="newPassword"
-                  value={formik.values.newPassword}
-                  onChange={formik.handleChange}
-               />
-               {formik.errors.newPassword ? <p>{formik.errors.newPassword}</p> : null}
+                     <TextField
+                        InputLabelProps={{ shrink: true }}
+                        error={formik.errors.newPassword}
+                        helperText={formik.errors.newPassword ? formik.errors.newPassword : " "}
+                        label="New Password"
+                        variant="outlined"
+                        type="password"
+                        name="newPassword"
+                        value={formik.values.newPassword}
+                        onChange={formik.handleChange}
+                     />
 
-               <TextField
-                  InputLabelProps={{ shrink: true }}
-                  variant="outlined"
-                  label="Confirm Password"
-                  type="password"
-                  name="confirmPassword"
-                  value={formik.values.confirmPassword}
-                  onChange={formik.handleChange}
-               />
-               {formik.errors.confirmPassword ? <p>{formik.errors.confirmPassword}</p> : null}
-
-               {error}
+                     <TextField
+                        InputLabelProps={{ shrink: true }}
+                        error={formik.errors.confirmPassword}
+                        helperText={formik.errors.confirmPassword ? formik.errors.confirmPassword : " "}
+                        label="Confirm Password"
+                        variant="outlined"
+                        type="password"
+                        name="confirmPassword"
+                        value={formik.values.confirmPassword}
+                        onChange={formik.handleChange}
+                     />
+                  </Box>
+                  {error ? (
+                     <Typography color={"red"} variant="body2">
+                        {error}
+                     </Typography>
+                  ) : null}
+               </Container>
             </DialogContent>
             <DialogActions>
                <Button onClick={handleClose}>Cancel</Button>

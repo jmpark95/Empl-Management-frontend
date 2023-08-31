@@ -1,22 +1,41 @@
 import ChangePasswordDialog from "../components/ChangePasswordDialog";
-import { calculateLeaveBalance } from "../api/utils";
+import { calculateLeaveBalance, formatDate } from "../api/utils";
 import { useOutletContext } from "react-router-dom";
+import { Box, Paper, Typography } from "@mui/material";
 
 export default function Profile() {
    const [user] = useOutletContext();
 
    return (
       <div>
-         <div>
-            Name: {user.firstName} {user.lastName}
-         </div>
-         <div>Email: {user.email}</div>
-         <div>Start Date: {user.startDate}</div>
-         <div>Salary: {user.salary}</div>
-         <div>Leave Taken: {user.leaveTaken} hours</div>
-         <div>Leave Balance: {(calculateLeaveBalance(user.startDate) - user.leaveTaken).toFixed(1)} hours</div>
-         <div>Role: {user.role.role}</div>
-         <ChangePasswordDialog />
+         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+            <Paper elevation={3} sx={{ padding: 4, width: 400 }}>
+               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                  <Typography variant="h5" gutterBottom style={{ textAlign: "left" }}>
+                     <strong>Role:</strong> {user.role.role}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom style={{ textAlign: "left" }}>
+                     <strong>Email:</strong> {user.email}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom style={{ textAlign: "left" }}>
+                     <strong>Start Date:</strong> {formatDate(user.startDate)}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom style={{ textAlign: "left" }}>
+                     <strong>Salary:</strong> ${user.salary}
+                  </Typography>
+                  <Typography variant="h5" gutterBottom style={{ textAlign: "left" }}>
+                     <strong>Leave Balance:</strong> {user.leaveTaken.toFixed(1)} hours
+                  </Typography>
+                  <Typography variant="h5" gutterBottom style={{ textAlign: "left" }}>
+                     <strong>Leave Taken:</strong>{" "}
+                     {(calculateLeaveBalance(user.startDate) - user.leaveTaken).toFixed(1)} hours
+                  </Typography>
+               </div>
+               <Box sx={{ textAlign: "center", marginTop: "2rem" }}>
+                  <ChangePasswordDialog />
+               </Box>
+            </Paper>
+         </Box>
       </div>
    );
 }

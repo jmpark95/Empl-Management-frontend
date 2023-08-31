@@ -1,6 +1,5 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-import { Box, Drawer, AppBar, CssBaseline, Toolbar, Typography, Divider } from "@mui/material";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Box, Drawer, AppBar, CssBaseline, Toolbar, Typography, Divider, Button, Link } from "@mui/material";
+import { Link as RouterLink, Outlet, useNavigate } from "react-router-dom";
 import MenuItem from "./MenuItem";
 import { useEffect, useState } from "react";
 import { EmployeeService } from "../api/EmployeeService";
@@ -50,16 +49,20 @@ export default function DefaultLayout() {
       <Box sx={{ display: "flex" }}>
          <CssBaseline />
          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-            <Toolbar>
-               <Typography variant="h6" noWrap component="div">
-                  Hi {user.firstName}
-               </Typography>
+            <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+               <Box>
+                  <Typography variant="h6" noWrap component="div">
+                     <Link to="/profile" component={RouterLink} underline="none" color="inherit">
+                        Hi {user.firstName} {user.lastName}
+                     </Link>
+                  </Typography>
+               </Box>
 
-               <Typography variant="h6" noWrap component="div">
-                  <Link to="/profile">Profile</Link>
-               </Typography>
-               <button onClick={logout}>Logout</button>
-               <Link to="/">Home</Link>
+               <Box>
+                  <Button color="inherit" onClick={logout}>
+                     Logout
+                  </Button>
+               </Box>
             </Toolbar>
          </AppBar>
 
@@ -84,13 +87,15 @@ export default function DefaultLayout() {
                   <MenuItem text="Leave" link="/leave" />
                )}
 
-               <Divider />
+               <Divider sx={{ paddingTop: "30px" }} />
             </Box>
          </Drawer>
 
          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Toolbar />
-            <button onClick={() => navigate(-1)}>Go back </button>
+            <Link onClick={() => navigate(-1)} component={RouterLink} color="inherit">
+               &lt;Back
+            </Link>
 
             <Outlet context={[user, setUser]} />
          </Box>
