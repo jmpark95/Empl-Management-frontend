@@ -1,62 +1,55 @@
-import { Box, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { Box, Link, List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { StreamService } from "../api/StreamService";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
+import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
+import DocumentScannerOutlinedIcon from "@mui/icons-material/DocumentScannerOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import CloudOutlinedIcon from "@mui/icons-material/CloudOutlined";
+import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 
 export default function Streams() {
-   const navigate = useNavigate();
-
-   const [open, setOpen] = useState(false);
-
-   const handleClickOpen = () => {
-      setOpen(true);
-   };
-
-   const handleClose = () => {
-      setOpen(false);
-   };
-
    const streamsQuery = useQuery("allStreams", () => {
       return StreamService.getAllStreams();
    });
-
    if (streamsQuery.isLoading) return "Loading...";
-
    if (streamsQuery.error) return "An error has occurred: ";
 
    return (
-      <Box sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-         <Typography variant="h2">All Streams</Typography>
-         <button onClick={() => navigate(-1)}>Go back </button>
+      <>
+         <Box display={"flex"} justifyContent={"start"} gap={"5rem"} sx={{ mt: "2.5rem", mb: "2.5rem" }}>
+            <Typography variant="h3" fontWeight={500}>
+               All Streams
+            </Typography>
+         </Box>
 
-         <Button variant="outlined" onClick={handleClickOpen}>
-            Add a stream
-         </Button>
-         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>New Stream </DialogTitle>
-            <DialogContent>
-               <TextField autoFocus margin="dense" id="name" label="Name" type="text" fullWidth variant="standard" />
-            </DialogContent>
-            <DialogActions>
-               <Button onClick={handleClose}>Cancel</Button>
-               <Button onClick={handleClose}>Add</Button>
-            </DialogActions>
-         </Dialog>
          <nav aria-label="main">
             <List>
                {streamsQuery.data.map((stream) => (
-                  <ListItem key={stream.name} disablePadding>
-                     <Link to={`/streams/${stream.id}/classes`}>
-                        <ListItemButton>
-                           <ListItemText primary={stream.name} />
-                        </ListItemButton>
+                  <ListItem key={stream.name} disablePadding sx={{ mb: "2.5rem" }}>
+                     <ListItemIcon>
+                        {stream.name === "Software Development" ? <TerminalOutlinedIcon /> : null}
+                        {stream.name === "Business Intelligence" ? <BusinessOutlinedIcon /> : null}
+                        {stream.name === "Data Engineering" ? <DocumentScannerOutlinedIcon /> : null}
+                        {stream.name === "Cybersecurity" ? <SecurityOutlinedIcon /> : null}
+                        {stream.name === "Cloud Computing" ? <CloudOutlinedIcon /> : null}
+                        {stream.name === "Technical Analysis" ? <MemoryOutlinedIcon /> : null}
+                     </ListItemIcon>
+                     <Link
+                        component={RouterLink}
+                        to={`/streams/${stream.id}/classes`}
+                        underline="none"
+                        color={"inherit"}
+                     >
+                        <Typography sx={{ ":hover": { textDecoration: "underline" } }} variant="h5">
+                           {stream.name}
+                        </Typography>
                      </Link>
                   </ListItem>
                ))}
             </List>
          </nav>
-      </Box>
+      </>
    );
 }

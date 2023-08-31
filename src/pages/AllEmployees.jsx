@@ -91,7 +91,9 @@ export default function AllEmployees() {
 
    return (
       <Box>
-         <h1>All employees</h1>
+         <Typography variant="h3" fontWeight={500} sx={{ mt: "2.5rem", mb: "2.5rem" }}>
+            All Employees
+         </Typography>
          <Box display={"flex"} justifyContent={"space-around"} sx={{ mb: "2rem" }}>
             <TextField
                type="text"
