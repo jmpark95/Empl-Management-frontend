@@ -4,6 +4,8 @@ import { AuthService } from "../api/AuthService";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import IconButton from "@mui/material/IconButton";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 export default function Login() {
    const navigate = useNavigate();
@@ -46,6 +48,18 @@ export default function Login() {
                minHeight: "100vh",
             }}
          >
+            <IconButton
+               aria-label="GitHub"
+               component="a"
+               href="https://github.com/jmpark95/Spring-Employee-Management-System"
+               target="_blank"
+               rel="noopener noreferrer"
+               sx={{
+                  alignSelf: "center",
+               }}
+            >
+               <GitHubIcon sx={{ fontSize: 36 }} />
+            </IconButton>
             <Typography component="h1" variant="h4" fontWeight={600}>
                Sign In
             </Typography>

@@ -17,10 +17,13 @@ export default function Dashboard() {
    const leaveRequestsQuery = useQuery("allLeaveRequests", () => {
       return LeaveService.getAllPendingLeaveRequests();
    });
-
-   if (streamsQuery.isLoading || employeesQuery.isLoading || leaveRequestsQuery.isLoading) return "Loading...";
-
-   if (streamsQuery.error || employeesQuery.error || leaveRequestsQuery.isLoading) return "An error has occurred: ";
+   const leaveQuery = useQuery("allLeaveRequestsCurrentUser", () => {
+      return LeaveService.getAllLeaveRequestsByEmployeeId(sessionStorage.getItem("id"));
+   });
+   if (streamsQuery.isLoading || employeesQuery.isLoading || leaveRequestsQuery.isLoading || leaveQuery.isLoading)
+      return "Loading...";
+   if (streamsQuery.error || employeesQuery.error || leaveRequestsQuery.isLoading || leaveQuery.error)
+      return "An error has occurred: ";
 
    if (user && user.role?.role === "HR") {
       return (
@@ -80,9 +83,9 @@ export default function Dashboard() {
       >
          <Paper elevation={3}>
             <Box padding={"20px"}>
-               <Link to={"/streams"} component={RouterLink} underline="none" color="inherit">
-                  <Typography variant="h3">leave </Typography>
-                  {streamsQuery.data.length === 1 ? "Stream" : "Streams"}
+               <Link to={"/leave"} component={RouterLink} underline="none" color="inherit">
+                  <Typography variant="h3">{leaveQuery.data.length} </Typography>
+                  {leaveQuery.data.length === 1 ? "Leave Request" : "Leave Requests"}
                </Link>
             </Box>
          </Paper>

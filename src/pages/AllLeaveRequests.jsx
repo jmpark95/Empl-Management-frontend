@@ -3,7 +3,7 @@ import { LeaveService } from "../api/LeaveService";
 import { useState } from "react";
 import { dateComparator, formatDate } from "../api/utils";
 import { AgGridReact } from "ag-grid-react";
-import { Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 export default function AllLeaveRequests() {
    const queryClient = useQueryClient();
@@ -55,10 +55,10 @@ export default function AllLeaveRequests() {
          width: 500,
          cellRenderer: (params) => (
             <>
-               <Button variant="outlined" onClick={() => handleApprove(params)}>
+               <Button variant="text" onClick={() => handleApprove(params)}>
                   Approve
                </Button>
-               <Button variant="outlined" onClick={() => handleDecline(params)}>
+               <Button variant="text" onClick={() => handleDecline(params)}>
                   Decline
                </Button>
             </>
@@ -92,7 +92,11 @@ export default function AllLeaveRequests() {
 
    return (
       <>
-         <h3>Leave Requests pending approval</h3>
+         <Box display={"flex"} justifyContent={"start"} gap={"5rem"} sx={{ mt: "2.5rem", mb: "2.5rem" }}>
+            <Typography variant="h3" fontWeight={500}>
+               Pending Leave Requests
+            </Typography>
+         </Box>
          <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
             <AgGridReact
                defaultColDef={defaultColDef}

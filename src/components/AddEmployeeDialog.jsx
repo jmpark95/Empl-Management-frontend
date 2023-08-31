@@ -47,6 +47,9 @@ export default function AddEmployeeDialog() {
       validateOnBlur: false,
       onSubmit: async (values, { resetForm }) => {
          await EmployeeService.createEmployee(values);
+         alert(
+            "Successfully created. Employee password is the same as email address. Please advise employee to reset their password to access the portal"
+         );
          navigate(0);
          resetForm();
          handleClose();

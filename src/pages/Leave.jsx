@@ -7,11 +7,12 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { dateComparator, formatDate } from "../api/utils";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 
 export default function Leave() {
    const [user] = useOutletContext();
    const [defaultColDef] = useState({ sortable: true, unSortIcon: true });
-   const leaveQuery = useQuery("allLeaveRequests", () => {
+   const leaveQuery = useQuery("allLeaveRequestsThis", () => {
       return LeaveService.getAllLeaveRequestsByEmployeeId(sessionStorage.getItem("id"));
    });
    if (leaveQuery.isLoading) return "Loading...";
@@ -47,8 +48,19 @@ export default function Leave() {
 
    return (
       <>
-         <SubmitLeaveDialog user={user} />
-         <h3>Your leave history</h3>
+         <Box
+            display={"flex"}
+            justifyContent={"start"}
+            alignItems={"center"}
+            gap="5rem"
+            sx={{ mt: "2.5rem", mb: "2.5rem" }}
+         >
+            <Typography variant="h3" fontWeight={500}>
+               Your leave history
+            </Typography>
+            <SubmitLeaveDialog user={user} />
+         </Box>
+
          <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
             <AgGridReact
                defaultColDef={defaultColDef}

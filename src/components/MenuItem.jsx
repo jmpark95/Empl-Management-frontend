@@ -4,6 +4,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import Groups3OutlinedIcon from "@mui/icons-material/Groups3Outlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 
 export default function MenuItem({ text, link }) {
    const location = useLocation();
@@ -16,7 +17,8 @@ export default function MenuItem({ text, link }) {
                   {text === "Dashboard" ? <GridViewIcon /> : null}
                   {text === "Employees" ? <BadgeOutlinedIcon /> : null}
                   {text === "Streams" ? <Groups3OutlinedIcon /> : null}
-                  {text === "Leave Requests" ? <CalendarMonthOutlinedIcon /> : null}
+                  {text === "Leave" ? <CalendarMonthOutlinedIcon /> : null}
+                  {text === "Leave Requests" ? <ListOutlinedIcon /> : null}
                </ListItemIcon>
                <ListItemText primary={text} />
             </ListItemButton>

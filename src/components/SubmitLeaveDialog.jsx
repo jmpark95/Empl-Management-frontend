@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { useEffect, useState } from "react";
 import { calculateLeaveBalance, calculateTotalWorkingHoursBetweenStartDateAndEndDate, isWeekday } from "../api/utils";
 import DatePicker from "react-datepicker";
@@ -70,18 +70,20 @@ export default function SubmitLeaveDialog({ user }) {
                Current Leave Balance: {calculateLeaveBalance(user?.startDate) - user?.leaveTaken} hours
             </DialogTitle>
             <DialogContent>
-               <div>From</div>
-               <DatePicker
-                  showTimeSelect
-                  minTime={new Date(0, 0, 0, 9, 0)}
-                  maxTime={new Date(0, 0, 0, 17, 30)}
-                  selected={startDate}
-                  dateFormat="dd/MM/yyyy h:mm aa"
-                  inline
-                  filterDate={isWeekday}
-                  excludeTimes={[setHours(setMinutes(new Date(), 0), 13)]}
-                  onChange={(date) => setStartDate(date)}
-               />
+               <Box sx={{ mb: "2.5rem" }}>
+                  <div>From</div>
+                  <DatePicker
+                     showTimeSelect
+                     minTime={new Date(0, 0, 0, 9, 0)}
+                     maxTime={new Date(0, 0, 0, 17, 30)}
+                     selected={startDate}
+                     dateFormat="dd/MM/yyyy h:mm aa"
+                     inline
+                     filterDate={isWeekday}
+                     excludeTimes={[setHours(setMinutes(new Date(), 0), 13)]}
+                     onChange={(date) => setStartDate(date)}
+                  />
+               </Box>
 
                <div>To</div>
                <DatePicker

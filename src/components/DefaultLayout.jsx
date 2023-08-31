@@ -89,13 +89,14 @@ export default function DefaultLayout() {
                      <MenuItem text="Dashboard" link="/" />
                      <MenuItem text="Employees" link="/employees" />
                      <MenuItem text="Streams" link="/streams" />
+                     <MenuItem text="Leave" link="/leave" />
                      <MenuItem text="Leave Requests" link="/leave-requests" />
                   </>
                ) : (
                   <MenuItem text="Leave" link="/leave" />
                )}
 
-               <Divider sx={{ paddingTop: "30px" }} />
+               {user.role?.role === "HR" && <Divider sx={{ paddingTop: "30px" }} />}
             </Box>
          </Drawer>
 

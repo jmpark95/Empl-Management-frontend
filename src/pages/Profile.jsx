@@ -24,10 +24,10 @@ export default function Profile() {
                      <strong>Salary:</strong> ${user.salary}
                   </Typography>
                   <Typography variant="h5" gutterBottom style={{ textAlign: "left" }}>
-                     <strong>Leave Balance:</strong> {user.leaveTaken.toFixed(1)} hours
+                     <strong>Leave Taken:</strong> {user.leaveTaken.toFixed(1)} hours
                   </Typography>
                   <Typography variant="h5" gutterBottom style={{ textAlign: "left" }}>
-                     <strong>Leave Taken:</strong>{" "}
+                     <strong>Leave Balance:</strong>{" "}
                      {(calculateLeaveBalance(user.startDate) - user.leaveTaken).toFixed(1)} hours
                   </Typography>
                </div>
