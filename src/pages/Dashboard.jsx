@@ -1,6 +1,6 @@
-import { Box, Paper } from "@mui/material";
+import { Box, Link, Paper, Typography } from "@mui/material";
 import { StreamService } from "../api/StreamService";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link as RouterLink, useOutletContext } from "react-router-dom";
 import { useQuery } from "react-query";
 import { EmployeeService } from "../api/EmployeeService";
 import { LeaveService } from "../api/LeaveService";
@@ -27,33 +27,65 @@ export default function Dashboard() {
          <Box
             sx={{
                display: "flex",
+               justifyContent: "center",
                flexWrap: "wrap",
                "& > :not(style)": {
                   m: 1,
-                  width: 128,
-                  height: 128,
+                  width: 170,
+                  height: 140,
                },
             }}
          >
             <Paper elevation={3}>
-               <Link to={"/streams"}>
-                  {streamsQuery.data.length} {streamsQuery.data.length === 1 ? "Stream" : "Streams"}
-               </Link>
+               <Box padding={"20px"}>
+                  <Link to={"/employees"} component={RouterLink} underline="none" color="inherit">
+                     <Typography variant="h3">{employeesQuery.data.length}</Typography>
+                     {employeesQuery.data.length === 1 ? "Employee" : "Employees"}
+                  </Link>
+               </Box>
             </Paper>
             <Paper elevation={3}>
-               <Link to={"/employees"}>
-                  {employeesQuery.data.length} {employeesQuery.data.length === 1 ? "Employee" : "Employees"}
-               </Link>
+               <Box padding={"20px"}>
+                  <Link to={"/streams"} component={RouterLink} underline="none" color="inherit">
+                     <Typography variant="h3">{streamsQuery.data.length} </Typography>
+                     {streamsQuery.data.length === 1 ? "Stream" : "Streams"}
+                  </Link>
+               </Box>
             </Paper>
+
             <Paper elevation={3}>
-               <Link to={"/leave-requests"}>
-                  {leaveRequestsQuery.data.length}{" "}
-                  {leaveRequestsQuery.data.length === 1 ? "Pending Leave Request" : "Pending Leave Requests"}
-               </Link>
+               <Box padding={"20px"}>
+                  <Link to={"/leave-requests"} component={RouterLink} underline="none" color="inherit">
+                     <Typography variant="h3">{leaveRequestsQuery.data.length} </Typography>
+                     {leaveRequestsQuery.data.length === 1 ? "Pending Leave Request" : "Pending Leave Requests"}
+                  </Link>
+               </Box>
             </Paper>
          </Box>
       );
    }
 
-   return <div>nonHr page</div>;
+   return (
+      <Box
+         sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            "& > :not(style)": {
+               m: 1,
+               width: 170,
+               height: 140,
+            },
+         }}
+      >
+         <Paper elevation={3}>
+            <Box padding={"20px"}>
+               <Link to={"/streams"} component={RouterLink} underline="none" color="inherit">
+                  <Typography variant="h3">leave </Typography>
+                  {streamsQuery.data.length === 1 ? "Stream" : "Streams"}
+               </Link>
+            </Box>
+         </Paper>
+      </Box>
+   );
 }

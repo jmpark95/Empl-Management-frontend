@@ -59,6 +59,14 @@ export default function DefaultLayout() {
                </Box>
 
                <Box>
+                  <Typography variant="h6" noWrap component="div">
+                     <Link to="/" component={RouterLink} underline="none" color="inherit">
+                        Home
+                     </Link>
+                  </Typography>
+               </Box>
+
+               <Box>
                   <Button color="inherit" onClick={logout}>
                      Logout
                   </Button>

@@ -29,6 +29,7 @@ export default function ChangePasswordDialog() {
       onSubmit: async (values, { resetForm }) => {
          try {
             await EmployeeService.updatePassword(values);
+            alert("Successfully changed password");
             resetForm();
             handleClose();
          } catch (error) {
