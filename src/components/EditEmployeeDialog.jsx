@@ -66,7 +66,7 @@ export default function EditEmployeeDialog({ params }) {
          <Button onClick={handleClickOpen}>
             <Typography variant="body2">Edit</Typography>
          </Button>
-         <Dialog open={open} onClose={handleClose}>
+         <Dialog open={open} onClose={handleClose} fullWidth>
             <DialogTitle>Edit employee details</DialogTitle>
 
             <DialogContent>
