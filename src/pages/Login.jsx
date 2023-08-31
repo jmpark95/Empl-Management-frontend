@@ -2,9 +2,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AuthService } from "../api/AuthService";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 export default function Login() {
    const navigate = useNavigate();
+   const [error, setError] = useState("");
+
    const formik = useFormik({
       initialValues: {
          email: "",
@@ -14,9 +18,11 @@ export default function Login() {
          email: Yup.string()
             .email("Invalid email")
             .min(9, "Email must be a minimum of 9 characters")
-            .required("Email is required"),
-         password: Yup.string().min(5, "Password must be a minimum of 5 characters").required("Password is required"),
+            .required("Please enter email"),
+         password: Yup.string().min(5, "Password must be a minimum of 5 characters").required("Please enter password"),
       }),
+      validateOnChange: false,
+      validateOnBlur: false,
       onSubmit: async (values, { resetForm }) => {
          try {
             const response = await AuthService.login(values);
@@ -24,34 +30,63 @@ export default function Login() {
             resetForm();
             navigate("/");
          } catch {
-            alert("Login fail");
+            setError("Invalid credentials");
          }
       },
    });
 
    return (
-      <form onSubmit={formik.handleSubmit}>
-         <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-         />
-         {formik.touched.email && formik.errors.email ? <p>{formik.errors.email}</p> : null}
+      <Container component="main" maxWidth="xs">
+         <Box
+            sx={{
+               display: "flex",
+               flexDirection: "column",
+               alignItems: "center",
+               justifyContent: "center",
+               minHeight: "100vh",
+            }}
+         >
+            <Typography component="h1" variant="h4" fontWeight={600}>
+               Sign In
+            </Typography>
 
-         <input
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-         />
-         {formik.touched.password && formik.errors.password ? <p>{formik.errors.password}</p> : null}
+            <Box component="form" sx={{ width: "100%" }}>
+               <Box>
+                  <TextField
+                     margin="normal"
+                     id="email"
+                     fullWidth
+                     label="Email Address"
+                     name="email"
+                     autoComplete="email"
+                     value={formik.values.email}
+                     onChange={formik.handleChange}
+                  />
+                  {formik.errors.email ? <Typography variant="body2">{formik.errors.email}</Typography> : null}
+               </Box>
 
-         <button type="submit">Submit</button>
-      </form>
+               <TextField
+                  margin="normal"
+                  fullWidth
+                  id="password"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+               />
+               {formik.errors.password ? <Typography variant="body2">{formik.errors.password}</Typography> : null}
+
+               <Button onClick={formik.handleSubmit} type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                  Log In
+               </Button>
+               {
+                  <Typography textAlign="center" variant="body2" color={"red"}>
+                     {error}
+                  </Typography>
+               }
+            </Box>
+         </Box>
+      </Container>
    );
 }
