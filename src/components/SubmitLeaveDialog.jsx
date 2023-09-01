@@ -6,8 +6,10 @@ import { setHours, setMinutes } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import { LeaveService } from "../api/LeaveService";
 import { useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 export default function SubmitLeaveDialog({ user }) {
+   const navigate = useNavigate();
    const queryClient = useQueryClient();
    const [open, setOpen] = useState(false);
    const [startDate, setStartDate] = useState();
@@ -45,7 +47,8 @@ export default function SubmitLeaveDialog({ user }) {
             endDate,
             totalHours,
          });
-         queryClient.refetchQueries("allLeaveRequests");
+         await queryClient.refetchQueries("allLeaveRequests");
+         navigate(0);
          setStartDate(null);
          setEndDate(null);
          setOpen(false);
