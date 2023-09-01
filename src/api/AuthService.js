@@ -5,7 +5,7 @@ export const AuthService = {
       sessionStorage.clear();
 
       const response = await axios.post(
-         `${import.meta.env.VITE_BACKEND_URL}authenticatee`,
+         `https://minpark-ems-backend.up.railway.app/authenticate`,
          {},
          {
             auth: {
