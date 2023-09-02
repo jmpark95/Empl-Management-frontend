@@ -175,7 +175,7 @@ export default function ClassDetails() {
          </Dialog>
 
          <Box sx={{ mb: "3rem" }}>
-            <Typography variant="h4">Trainer(s)</Typography>
+            <Typography variant="h4">Trainers</Typography>
             {classQuery.data.trainers.map((trainer) => (
                <Typography sx={{ mb: "0.5rem" }} key={trainer.id}>
                   {trainer.firstName} {trainer.lastName}
@@ -183,7 +183,7 @@ export default function ClassDetails() {
             ))}
          </Box>
 
-         <Typography variant="h4">Trainee(s)</Typography>
+         <Typography variant="h4">Trainees</Typography>
          {classQuery.data.trainees.map((trainee) => (
             <Typography sx={{ mb: "0.5rem" }} key={trainee.id}>
                {trainee.firstName} {trainee.lastName}

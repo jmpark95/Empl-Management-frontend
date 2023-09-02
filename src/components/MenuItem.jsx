@@ -8,11 +8,12 @@ import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 
 export default function MenuItem({ text, link }) {
    const location = useLocation();
+   const isSelected = location.pathname === link || location.pathname.startsWith(`${link}/`);
 
    return (
       <Link to={`${link}`} component={RouterLink} underline="none" color="inherit">
          <ListItem disablePadding>
-            <ListItemButton selected={location.pathname === `${link}` ? true : false}>
+            <ListItemButton selected={isSelected}>
                <ListItemIcon>
                   {text === "Dashboard" ? <GridViewIcon /> : null}
                   {text === "Employees" ? <BadgeOutlinedIcon /> : null}
@@ -20,7 +21,14 @@ export default function MenuItem({ text, link }) {
                   {text === "Leave" ? <CalendarMonthOutlinedIcon /> : null}
                   {text === "Leave Requests" ? <ListOutlinedIcon /> : null}
                </ListItemIcon>
-               <ListItemText primary={text} />
+               <ListItemText
+                  primary={text}
+                  primaryTypographyProps={{
+                     style: {
+                        fontWeight: isSelected ? "bold" : "normal",
+                     },
+                  }}
+               />
             </ListItemButton>
          </ListItem>
       </Link>
