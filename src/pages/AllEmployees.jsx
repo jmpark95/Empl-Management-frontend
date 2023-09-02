@@ -49,7 +49,8 @@ export default function AllEmployees() {
    ];
 
    const handleDelete = async (params) => {
-      if (confirm("Are you sure you want to delete this employee?")) {
+      const response = confirm("Are you sure you want to delete this employee?");
+      if (response) {
          try {
             await EmployeeService.deleteEmployee(params.data.id, params.data.role);
             alert("Success!");
