@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClassService } from "../api/ClassService";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import { StreamService } from "../api/StreamService";
 import { Button, TextField, Dialog, DialogActions, DialogContent, Autocomplete } from "@mui/material";
 import { useState } from "react";
@@ -76,7 +76,11 @@ export default function ClassDetails() {
    };
 
    if (classQuery.isLoading || streamQuery.isLoading || trainersQuery.isLoading || traineesQuery.isLoading)
-      return "Loading...";
+      return (
+         <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+         </div>
+      );
    if (classQuery.error || streamQuery.error || trainersQuery.error || traineesQuery.error)
       return "An error has occurred: ";
 

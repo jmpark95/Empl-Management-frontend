@@ -4,6 +4,7 @@ import { useState } from "react";
 import { dateComparator, formatDate } from "../api/utils";
 import { AgGridReact } from "ag-grid-react";
 import { Box, Button, Typography } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function AllLeaveRequests() {
    const queryClient = useQueryClient();
@@ -12,7 +13,12 @@ export default function AllLeaveRequests() {
    const leaveQuery = useQuery("allPendingLeaveRequests", () => {
       return LeaveService.getAllPendingLeaveRequests();
    });
-   if (leaveQuery.isLoading) return "Loading...";
+   if (leaveQuery.isLoading)
+      return (
+         <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+         </div>
+      );
    if (leaveQuery.error) return "An error has occurred: ";
 
    const columnDefs = [

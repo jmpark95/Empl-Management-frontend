@@ -7,6 +7,7 @@ import AddClassDialog from "../components/AddClassDialog";
 import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
 import { dateComparator, formatDate } from "../api/utils";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function AllClasses() {
    const { streamId } = useParams();
@@ -18,7 +19,12 @@ export default function AllClasses() {
    const classesQuery = useQuery(["allClasses", streamId], () => {
       return ClassService.getAllClasses(streamId);
    });
-   if (classesQuery.isLoading || streamQuery.isLoading) return "Loading...";
+   if (classesQuery.isLoading || streamQuery.isLoading)
+      return (
+         <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+         </div>
+      );
    if (classesQuery.error || streamQuery.error) return "An error has occurred: ";
 
    const columnDefs = [

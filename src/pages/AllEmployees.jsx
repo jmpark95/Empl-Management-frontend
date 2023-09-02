@@ -86,10 +86,6 @@ export default function AllEmployees() {
       getAllEmployees();
    }, []);
 
-   const onFirstDataRendered = useCallback(() => {
-      gridRef.current.api.sizeColumnsToFit();
-   }, []);
-
    return (
       <Box>
          <Typography variant="h3" fontWeight={500} sx={{ mt: "2.5rem", mb: "2.5rem" }}>
@@ -107,12 +103,12 @@ export default function AllEmployees() {
 
          <div className="ag-theme-alpine" style={{ height: 500, width: "100%" }}>
             <AgGridReact
+               overlayNoRowsTemplate={"<span>Loading employees...</span>"}
                ref={gridRef}
                defaultColDef={defaultColDef}
                columnDefs={columnDefs}
                rowData={rowData}
                suppressMenuHide={true}
-               onFirstDataRendered={onFirstDataRendered}
             ></AgGridReact>
          </div>
       </Box>

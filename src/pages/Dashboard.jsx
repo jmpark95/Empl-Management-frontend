@@ -4,6 +4,7 @@ import { Link as RouterLink, useOutletContext } from "react-router-dom";
 import { useQuery } from "react-query";
 import { EmployeeService } from "../api/EmployeeService";
 import { LeaveService } from "../api/LeaveService";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Dashboard() {
    const [user] = useOutletContext();
@@ -21,7 +22,12 @@ export default function Dashboard() {
       return LeaveService.getAllLeaveRequestsByEmployeeId(sessionStorage.getItem("id"));
    });
    if (streamsQuery.isLoading || employeesQuery.isLoading || leaveRequestsQuery.isLoading || leaveQuery.isLoading)
-      return "Loading...";
+      return (
+         <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+         </div>
+      );
+
    if (streamsQuery.error || employeesQuery.error || leaveRequestsQuery.isLoading || leaveQuery.error)
       return "An error has occurred: ";
 

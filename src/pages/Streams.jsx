@@ -1,4 +1,4 @@
-import { Box, Link, List, ListItem, ListItemIcon, Typography } from "@mui/material";
+import { Box, CircularProgress, Link, List, ListItem, ListItemIcon, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { StreamService } from "../api/StreamService";
 import { Link as RouterLink } from "react-router-dom";
@@ -13,7 +13,12 @@ export default function Streams() {
    const streamsQuery = useQuery("allStreams", () => {
       return StreamService.getAllStreams();
    });
-   if (streamsQuery.isLoading) return "Loading...";
+   if (streamsQuery.isLoading)
+      return (
+         <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+         </div>
+      );
    if (streamsQuery.error) return "An error has occurred: ";
 
    return (

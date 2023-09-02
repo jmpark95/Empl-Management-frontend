@@ -7,7 +7,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { dateComparator, formatDate } from "../api/utils";
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 export default function Leave() {
    const [user] = useOutletContext();
@@ -15,7 +15,12 @@ export default function Leave() {
    const leaveQuery = useQuery("allLeaveRequestsThis", () => {
       return LeaveService.getAllLeaveRequestsByEmployeeId(sessionStorage.getItem("id"));
    });
-   if (leaveQuery.isLoading) return "Loading...";
+   if (leaveQuery.isLoading)
+      return (
+         <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+         </div>
+      );
    if (leaveQuery.error) return "An error has occurred: ";
 
    const columnDefs = [

@@ -1,4 +1,15 @@
-import { Box, Drawer, AppBar, CssBaseline, Toolbar, Typography, Divider, Button, Link } from "@mui/material";
+import {
+   Box,
+   Drawer,
+   AppBar,
+   CssBaseline,
+   Toolbar,
+   Typography,
+   Divider,
+   Button,
+   Link,
+   CircularProgress,
+} from "@mui/material";
 import { Link as RouterLink, Outlet, useNavigate } from "react-router-dom";
 import MenuItem from "./MenuItem";
 import { useEffect, useState } from "react";
@@ -42,7 +53,11 @@ export default function DefaultLayout() {
    };
 
    if (loading) {
-      return "Loading";
+      return (
+         <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+         </div>
+      );
    }
 
    return (
