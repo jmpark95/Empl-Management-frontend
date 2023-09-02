@@ -183,7 +183,7 @@ export default function ClassDetails() {
             ))}
          </Box>
 
-         <Typography variant="h4">Trainees(s)</Typography>
+         <Typography variant="h4">Trainee(s)</Typography>
          {classQuery.data.trainees.map((trainee) => (
             <Typography sx={{ mb: "0.5rem" }} key={trainee.id}>
                {trainee.firstName} {trainee.lastName}
