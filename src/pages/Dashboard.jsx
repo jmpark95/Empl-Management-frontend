@@ -72,13 +72,6 @@ export default function Dashboard() {
                   </Box>
                </Paper>
             </Box>
-            <Box>
-               <iframe
-                  src="https://web.powerva.microsoft.com/environments/Default-58a45382-bc25-41e8-9c22-59141988be9a/bots/cr7bf_employeeManagementSystem/webchat?__version__=2"
-                  frameBorder="0"
-                  style={{ width: "30%", height: "60%", position: "fixed", bottom: 0, right: 0 }}
-               ></iframe>
-            </Box>
          </>
       );
    }
@@ -105,13 +98,6 @@ export default function Dashboard() {
                   </Link>
                </Box>
             </Paper>
-         </Box>
-         <Box>
-            <iframe
-               src="https://web.powerva.microsoft.com/environments/Default-58a45382-bc25-41e8-9c22-59141988be9a/bots/cr7bf_employeeManagementSystem/webchat?__version__=2"
-               frameBorder="0"
-               style={{ width: "30%", height: "60%", position: "fixed", bottom: 0, right: 0 }}
-            ></iframe>
          </Box>
       </>
    );
