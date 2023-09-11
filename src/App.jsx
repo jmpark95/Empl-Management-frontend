@@ -12,10 +12,26 @@ import DefaultLayout from "./components/DefaultLayout";
 import Leave from "./pages/Leave";
 import AllLeaveRequests from "./pages/AllLeaveRequests";
 import SetPassword from "./pages/SetPassword";
+import { Box } from "@mui/material";
 
 function App() {
    return (
       <div className="container">
+         <Box>
+            <iframe
+               src="https://web.powerva.microsoft.com/environments/Default-58a45382-bc25-41e8-9c22-59141988be9a/bots/cr7bf_employeeManagementSystem/webchat?__version__=2"
+               frameBorder="0"
+               loading="eager"
+               style={{
+                  width: "30%",
+                  height: "50%",
+                  position: "fixed",
+                  bottom: 0,
+                  right: 0,
+               }}
+            ></iframe>
+         </Box>
+
          <Routes>
             <Route path="/" element={<DefaultLayout />}>
                <Route index element={<Dashboard />}></Route>
