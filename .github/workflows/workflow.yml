@@ -34,6 +34,8 @@ jobs:
               action: "upload"
               app_location: ${{ env.APP_LOCATION }}
               output_location: ${{ env.OUTPUT_LOCATION }}
+           env:
+              VITE_BACKEND_URL: https://minpark-ems-backend.up.railway.app
 
    close_pull_request:
       if: github.event_name == 'pull_request' && github.event.action == 'closed'
